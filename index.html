@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Mi Plan</title>
+<style>
+  :root{
+    --bg:#0f1115;
+    --card:#181b21;
+    --card2:#1f232b;
+    --accent:#4fd1a5;
+    --accent2:#f2a154;
+    --text:#eef1f5;
+    --muted:#9aa3af;
+    --border:#2a2f38;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding-bottom:80px;
+    -webkit-font-smoothing:antialiased;
+  }
+  header{
+    padding:20px 16px 10px;
+    text-align:center;
+  }
+  header h1{
+    margin:0;
+    font-size:20px;
+    font-weight:700;
+  }
+  header p{
+    margin:4px 0 0;
+    color:var(--muted);
+    font-size:13px;
+  }
+  nav{
+    display:flex;
+    gap:6px;
+    padding:10px 12px;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+    border-bottom:1px solid var(--border);
+  }
+  nav button{
+    flex:1;
+    padding:10px 4px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--muted);
+    font-size:13px;
+    font-weight:600;
+  }
+  nav button.active{
+    background:var(--accent);
+    color:#0f1115;
+    border-color:var(--accent);
+  }
+  main{
+    padding:14px 14px 30px;
+    max-width:640px;
+    margin:0 auto;
+  }
+  .tab{display:none;}
+  .tab.active{display:block;}
+
+  .day-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:12px;
+    overflow:hidden;
+  }
+  .day-card.office{
+    border-color:var(--accent2);
+  }
+  .day-head{
+    padding:12px 14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--card2);
+  }
+  .day-head .name{
+    font-weight:700;
+    font-size:15px;
+  }
+  .badge{
+    font-size:11px;
+    padding:3px 8px;
+    border-radius:20px;
+    background:rgba(242,161,84,0.15);
+    color:var(--accent2);
+    font-weight:600;
+  }
+  .badge.home{
+    background:rgba(79,209,165,0.15);
+    color:var(--accent);
+  }
+  .meal{
+    padding:10px 14px;
+    border-top:1px solid var(--border);
+  }
+  .meal .label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--muted);
+    margin-bottom:4px;
+    font-weight:700;
+  }
+  .meal .content{
+    font-size:14px;
+    line-height:1.45;
+  }
+  .meal .content b{color:var(--accent);}
+  .note{
+    background:var(--card2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 14px;
+    font-size:13px;
+    color:var(--muted);
+    margin:14px 0;
+    line-height:1.5;
+  }
+  .note.warn{
+    border-color:#a86b2c;
+    color:#f2c199;
+    background:rgba(242,161,84,0.08);
+  }
+  h2.section-title{
+    font-size:16px;
+    margin:18px 0 10px;
+    color:var(--text);
+  }
+  .ex-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 14px;
+    margin-bottom:10px;
+  }
+  .ex-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+  }
+  .ex-card .exname{
+    font-size:14px;
+    font-weight:600;
+  }
+  .ex-card .sets{
+    font-size:13px;
+    color:var(--accent);
+    font-weight:700;
+    white-space:nowrap;
+  }
+  .video-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:8px;
+    font-size:12px;
+    color:var(--accent2);
+    text-decoration:none;
+    border:1px solid var(--border);
+    padding:6px 10px;
+    border-radius:8px;
+    background:var(--card2);
+  }
+  .day-toggle{
+    display:flex;
+    gap:8px;
+    margin-bottom:12px;
+  }
+  .day-toggle button{
+    flex:1;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    font-weight:700;
+    font-size:14px;
+  }
+  .day-toggle button.active{
+    background:var(--accent);
+    color:#0f1115;
+    border-color:var(--accent);
+  }
+  .cardio-box{
+    background:var(--card2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 14px;
+    margin-bottom:14px;
+    font-size:13px;
+    line-height:1.5;
+  }
+  .shop-group{
+    margin-bottom:18px;
+  }
+  .shop-group h3{
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--accent2);
+    margin:0 0 8px;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--border);
+  }
+  .shop-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 4px;
+    border-bottom:1px solid var(--border);
+    font-size:14px;
+  }
+  .shop-item:last-child{border-bottom:none;}
+  .shop-item input{
+    width:20px;
+    height:20px;
+    accent-color:var(--accent);
+    flex-shrink:0;
+  }
+  .shop-item label{
+    flex:1;
+  }
+  .shop-item.checked label{
+    color:var(--muted);
+    text-decoration:line-through;
+  }
+  .qty{
+    color:var(--muted);
+    font-size:13px;
+    white-space:nowrap;
+  }
+  .reset-btn{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--card2);
+    color:var(--muted);
+    font-size:13px;
+    margin-top:6px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🥗 Mi Plan Semanal</h1>
+  <p>Menú · Entrenamiento · Lista de la compra</p>
+</header>
+
+<nav>
+  <button class="tabbtn active" data-tab="menu">Menú</button>
+  <button class="tabbtn" data-tab="entreno">Entreno</button>
+  <button class="tabbtn" data-tab="compra">Compra</button>
+</nav>
+
+<main>
+
+  <!-- ===================== MENU ===================== -->
+  <section id="menu" class="tab active">
+
+    <div class="note">
+      Objetivo aproximado: <b style="color:var(--text)">1850-1950 kcal/día</b> — déficit algo agresivo (~600-700 kcal/día) para acelerar la pérdida de grasa, proteína moderada (~95-100g/día repartidos, sin picos). Aceite de oliva virgen extra (AOVE) medido en cucharadas soperas (1 cda ≈ 10g).
+    </div>
+    <div class="note warn">
+      ⚠️ La proteína isolada se ha ajustado a <b>20-25g</b> (una cacito y medio aprox.) en vez de 50g, por la displasia renal. Confirma con tu nefrólogo/nutricionista tu límite exacto de proteína total al día.
+    </div>
+
+    <!-- LUNES -->
+    <div class="day-card">
+      <div class="day-head"><span class="name">Lunes</span><span class="badge home">Casa</span></div>
+      <div class="meal"><div class="label">Desayuno</div><div class="content">Bocadillo de lomo: <b>2 rebanadas pan de espelta (90g)</b> + <b>lomo embutido (80g, 6-7 lonchas)</b> + tomate rallado (50g) + <b>1 cda AOVE</b></div></div>
+      <div class="meal"><div class="label">Comida</div><div class="content">Arroz con pollo y verduras: <b>arroz crudo 90g</b> + <b>pechuga de pollo 150g</b> + pimiento/cebolla/calabacín (150g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20arroz%20con%20pollo%20y%20verduras%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
+      <div class="meal"><div class="label">Merienda</div><div class="content">Fruta (manzana o pera, 150g) + <b>nueces 25g</b> (8-9 unidades)</div></div>
+      <div class="meal"><div class="label">Cena</div><div class="content"><b>Merluza al horno 150g</b> + patata cocida (250g) + ensalada (lechuga, tomate, zanahoria 150g) + <b>1 1/2 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20merluza%20al%20horno%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
+    </div>
+
+    <!-- MARTES -->
+    <div class="day-card office">
+      <div class="day-head"><span class="name">Martes</span><span class="badge">Oficina</span></div>
+      <div class="meal"><div class="label">Desayuno</div><div class="content">Pan integral con tomate: <b>2 rebanadas pan integral (80g)</b> + tomate rallado (50g) + <b>1 cda AOVE</b> + jamón serrano (30g)</div></div>
+      <div class="meal"><div class="label">Media mañana (oficina)</div><div class="content">1 pieza de fruta (de la oficina)</div></div>
+      <div class="meal"><div class="label">Comida</div><div class="content">En la oficina — ver pauta general abajo ⬇️ (apunta a un plato consistente, ~700-750 kcal)</div></div>
+      <div class="meal"><div class="label">Merienda (oficina)</div><div class="content">1 pieza de fruta (de la oficina) + <b>nueces 25g</b> (llévalas de casa)</div></div>
+      <div class="meal"><div class="label">Cena</div><div class="content"><b>Salmón 130g</b> al horno + mezcla congelada de batata, patata y cebolla roja (250g) al horno + brócoli al vapor (150g) + <b>1 1/2 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20salm%C3%B3n%20al%20horno%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
+    </div>
+
+    <!-- MIERCOLES -->
+    <div class="day-card office">
+      <div class="day-head"><span class="name">Miércoles</span><span class="badge">Oficina</span></div>
+      <div class="meal"><div class="label">Desayuno</div><div class="content">Pan integral con tomate: <b>2 rebanadas pan integral (80g)</b> + tomate rallado (50g) + <b>1 cda AOVE</b></div></div>
+      <div class="meal"><div class="label">Media mañana (oficina)</div><div class="content">1 pieza de fruta (de la oficina)</div></div>
+      <div class="meal"><div class="label">Comida</div><div class="content">En la oficina — ver pauta general abajo ⬇️ (apunta a un plato consistente, ~700-750 kcal)</div></div>
+      <div class="meal"><div class="label">Merienda (oficina)</div><div class="content">1 pieza de fruta (de la oficina) + <b>nueces 25g</b> (llévalas de casa)</div></div>
+      <div class="meal"><div class="label">Cena</div><div class="content">Tortilla francesa (<b>2 huevos, 100g</b>) + verduras salteadas (calabacín, judía verde, pimiento 150g) + pan (60g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20tortilla%20francesa%20con%20verduras%20salteadas" target="_blank" rel="noopener">▶ Receta</a></div></div>
+    </div>
+
+    <!-- JUEVES -->
+    <div class="day-card office">
+      <div class="day-head"><span class="name">Jueves</span><span class="badge">Oficina</span></div>
+      <div class="meal"><div class="label">Desayuno</div><div class="content">Pan integral con tomate: <b>2 rebanadas pan integral (80g)</b> + tomate rallado (50g) + <b>1 cda AOVE</b></div></div>
+      <div class="meal"><div class="label">Media mañana (oficina)</div><div class="content">1 pieza de fruta (de la oficina)</div></div>
+      <div class="meal"><div class="label">Comida</div><div class="content">En la oficina — ver pauta general abajo ⬇️ (apunta a un plato consistente, ~700-750 kcal)</div></div>
+      <div class="meal"><div class="label">Merienda (oficina)</div><div class="content">1 pieza de fruta (de la oficina) + <b>nueces 25g</b> (llévalas de casa)</div></div>
+      <div class="meal"><div class="label">Cena</div><div class="content"><b>Pechuga de pollo a la plancha 150g</b> + ensalada (150g) + pan (60g) + <b>1 cda AOVE</b></div></div>
+    </div>
+
+    <!-- VIERNES -->
+    <div class="day-card">
+      <div class="day-head"><span class="name">Viernes</span><span class="badge home">Casa</span></div>
+      <div class="meal"><div class="label">Desayuno</div><div class="content">Yogur proteico: yogur natural (125g) + canela o cacao puro sin azúcar + <b>proteína isolada 20-25g</b> + granola (40g) + fruta (plátano/fresas 100g)</div></div>
+      <div class="meal"><div class="label">Comida</div><div class="content">Lentejas con verduras: <b>lentejas crudas 100g</b> + zanahoria/puerro/pimiento (150g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20lentejas%20con%20verduras%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
+      <div class="meal"><div class="label">Merienda</div><div class="content">Fruta (150g) + nueces (25g)</div></div>
+      <div class="meal"><div class="label">Cena</div><div class="content"><b>Pescado blanco 150g</b> (merluza/lenguado) + patata (250g) + verdura al vapor (150g) + <b>1 cda AOVE</b></div></div>
+    </div>
+
+    <!-- SABADO -->
+    <div class="day-card">
+      <div class="day-head"><span class="name">Sábado</span><span class="badge home">Casa</span></div>
+      <div class="meal"><div class="label">Desayuno</div><div class="content">Bocadillo de lomo: <b>2 rebanadas pan de espelta (90g)</b> + <b>lomo embutido (80g, 6-7 lonchas)</b> + tomate (50g) + <b>1 cda AOVE</b></div></div>
+      <div class="meal"><div class="label">Comida</div><div class="content">Pasta integral con atún: <b>pasta integral cruda 90g</b> + <b>atún al natural 1 lata (52g escurrido)</b> + tomate triturado (100g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20pasta%20con%20at%C3%BAn%20y%20tomate%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
+      <div class="meal"><div class="label">Merienda</div><div class="content">Yogur natural (125g) + canela o cacao puro sin azúcar al gusto + fruta (150g)</div></div>
+      <div class="meal"><div class="label">Cena</div><div class="content"><b>Pavo a la plancha 150g</b> + pisto de verduras (calabacín, pimiento, cebolla, tomate 150g) + pan (60g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20pisto%20de%20verduras%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
+    </div>
+
+    <!-- DOMINGO -->
+    <div class="day-card">
+      <div class="day-head"><span class="name">Domingo</span><span class="badge home">Casa</span></div>
+      <div class="meal"><div class="label">Desayuno</div><div class="content">Yogur proteico: yogur natural (125g) + canela o cacao puro sin azúcar + <b>proteína isolada 20-25g</b> + granola (40g) + fruta (100g)</div></div>
+      <div class="meal"><div class="label">Comida</div><div class="content">Arroz con pavo: <b>arroz crudo 90g</b> + <b>pavo 150g</b> + verduras variadas (150g) + <b>1 cda AOVE</b></div></div>
+      <div class="meal"><div class="label">Merienda</div><div class="content">Fruta (150g) + <b>nueces 15g</b></div></div>
+      <div class="meal"><div class="label">Cena</div><div class="content">Crema de verduras (250g de verdura variada) + tortilla francesa (<b>2 huevos</b>) + pan (40g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20crema%20de%20verduras%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
+    </div>
+
+    <div class="note">
+      <b style="color:var(--text)">Pauta para comida de oficina (martes/miércoles/jueves):</b><br>
+      · Elige plato con verdura + ración moderada de proteína (120-150g carne/pescado, o legumbre)<br>
+      · Un carbohidrato de acompañamiento (arroz, patata, pasta)<br>
+      · Evita fritos, salsas y embutidos procesados<br>
+      · Controla la sal añadida (importante también para el riñón)<br>
+      · Agua o infusión, evita refrescos
+    </div>
+
+  </section>
+
+  <!-- ===================== ENTRENO ===================== -->
+  <section id="entreno" class="tab">
+
+    <div class="cardio-box">
+      🏃 <b>Cinta (30 min, todos los días de entreno):</b> ritmo constante suave, con 4-5 intervalos de 1 minuto algo más rápido intercalados.
+    </div>
+
+    <div class="day-toggle">
+      <button class="dtbtn active" data-day="a">Día A</button>
+      <button class="dtbtn" data-day="b">Día B</button>
+    </div>
+
+    <div id="dayA"></div>
+    <div id="dayB" style="display:none;"></div>
+
+    <div class="note">
+      Alterna A/B en 3-4 sesiones por semana (ej. Lunes A, Miércoles B, Viernes A, Sábado B). Descanso 60-90s entre series. Sube el peso poco a poco cuando completes las 12 reps con buena forma en todas las series.
+    </div>
+
+  </section>
+
+  <!-- ===================== COMPRA ===================== -->
+  <section id="compra" class="tab">
+
+    <div class="note">Lista pensada para Mercadona. Marca lo que ya tengas o vayas metiendo al carro — se guarda automáticamente.</div>
+
+    <div id="shopList"></div>
+
+    <button class="reset-btn" id="resetShop">↺ Desmarcar todo</button>
+
+  </section>
+
+</main>
+
+<script>
+  // ---- App icon (generado en canvas, sin archivos externos) ----
+  (function generateIcon(){
+    function roundRect(ctx,x,y,w,h,r){
+      ctx.beginPath();
+      ctx.moveTo(x+r,y);
+      ctx.arcTo(x+w,y,x+w,y+h,r);
+      ctx.arcTo(x+w,y+h,x,y+h,r);
+      ctx.arcTo(x,y+h,x,y,r);
+      ctx.arcTo(x,y,x+w,y,r);
+      ctx.closePath();
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = 180;
+    canvas.height = 180;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0,0,180,180);
+    grad.addColorStop(0, '#4fd1a5');
+    grad.addColorStop(1, '#1f8f6f');
+    ctx.fillStyle = grad;
+    roundRect(ctx,0,0,180,180,34);
+    ctx.fill();
+    ctx.font = '90px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🥗', 90, 98);
+    const dataUrl = canvas.toDataURL('image/png');
+
+    let touchIcon = document.querySelector("link[rel='apple-touch-icon']");
+    if(!touchIcon){
+      touchIcon = document.createElement('link');
+      touchIcon.rel = 'apple-touch-icon';
+      document.head.appendChild(touchIcon);
+    }
+    touchIcon.href = dataUrl;
+
+    let favicon = document.querySelector("link[rel='icon']");
+    if(!favicon){
+      favicon = document.createElement('link');
+      favicon.rel = 'icon';
+      document.head.appendChild(favicon);
+    }
+    favicon.href = dataUrl;
+  })();
+
+  // ---- Tabs ----
+  document.querySelectorAll('.tabbtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ---- Workout exercises ----
+  const workouts = {
+    a: [
+["Prensa horizontal de piernas", "3 x 10-12"],
+      ["Press de pecho en máquina", "3 x 10-12"],
+      ["Jalón al pecho (polea)", "3 x 10-12"],
+      ["Remo sentado en máquina", "3 x 10-12"],
+      ["Extensión de cuádriceps", "3 x 12"],
+      ["Abdominal en máquina", "3 x 15"],
+    ],
+    b: [
+      ["Press militar en máquina", "3 x 10-12"],
+      ["Curl femoral (isquios)", "3 x 12"],
+      ["Peck deck (aperturas)", "3 x 12"],
+      ["Remo en polea baja", "3 x 10-12"],
+      ["Elevaciones laterales (polea/máquina)", "3 x 12-15"],
+      ["Plancha abdominal", "3 x 30-40s"],
+    ],
+  };
+
+  Object.keys(workouts).forEach(day=>{
+    const container = document.getElementById('day' + day.toUpperCase());
+    workouts[day].forEach(([name, sets])=>{
+      const query = encodeURIComponent(name + " técnica correcta ejercicio");
+      const card = document.createElement('div');
+      card.className = 'ex-card';
+      card.innerHTML = `
+        <div class="ex-top">
+          <span class="exname">${name}</span>
+          <span class="sets">${sets}</span>
+        </div>
+        <a class="video-link" href="https://www.youtube.com/results?search_query=${query}" target="_blank" rel="noopener">▶ Cómo hacerlo</a>
+      `;
+      container.appendChild(card);
+    });
+  });
+
+  // ---- Workout day toggle ----
+  document.querySelectorAll('.dtbtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.dtbtn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('dayA').style.display = btn.dataset.day==='a' ? 'block':'none';
+      document.getElementById('dayB').style.display = btn.dataset.day==='b' ? 'block':'none';
+    });
+  });
+
+  // ---- Shopping list ----
+  const shopping = [
+    { group: "Carnicería / Pescadería", items: [
+      ["Lomo embutido (loncheado)", "1 paquete"],
+      ["Pechuga de pollo", "500g"],
+      ["Pavo (filetes)", "300g"],
+      ["Merluza / lenguado", "450g"],
+      ["Salmón", "130g"],
+      ["Jamón serrano (opcional)", "1 sobre"],
+    ]},
+    { group: "Huevos y lácteos", items: [
+      ["Huevos", "1 docena"],
+      ["Yogur natural", "1 pack grande (6-8 uds)"],
+      ["Proteína isolada (sabor neutro/vainilla)", "1 bote"],
+    ]},
+    { group: "Panadería / Cereales", items: [
+      ["Pan de espelta (rebanadas)", "1 paquete"],
+      ["Pan integral (rebanadas)", "1 paquete"],
+      ["Arroz", "1 paquete"],
+      ["Pasta integral", "1 paquete"],
+      ["Lentejas", "1 paquete"],
+      ["Granola", "1 paquete"],
+    ]},
+    { group: "Frutería / Verdulería", items: [
+      ["Tomate (para rallar)", "1 kg"],
+      ["Tomate triturado (bote/brik)", "1 unidad"],
+      ["Lechuga", "1 unidad"],
+      ["Zanahoria", "500g"],
+      ["Pimiento", "3-4 uds"],
+      ["Cebolla", "2-3 uds"],
+      ["Calabacín", "2 uds"],
+      ["Judía verde", "500g"],
+      ["Brócoli", "1 unidad"],
+      ["Patata", "1 kg"],
+      ["Mezcla congelada batata + patata + cebolla roja", "1 bolsa"],
+      ["Puerro", "2 uds"],
+      ["Plátano", "1 racimo"],
+      ["Fresas (o fruta de temporada)", "1 tarrina"],
+      ["Manzana / pera", "6-8 uds"],
+    ]},
+    { group: "Conservas / Despensa", items: [
+      ["Atún al natural (latas)", "2-3 latas"],
+      ["Aceite de oliva virgen extra", "1 botella"],
+      ["Nueces", "1 bolsa (200g)"],
+      ["Canela en polvo", "1 bote"],
+      ["Cacao puro en polvo (sin azúcar)", "1 bote"],
+      ["Sal (uso moderado)", "si falta"],
+    ]},
+  ];
+
+  const shopListEl = document.getElementById('shopList');
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem('shopCheck') || '{}'); } catch(e){ saved = {}; }
+
+  shopping.forEach((grp, gi)=>{
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'shop-group';
+    const h3 = document.createElement('h3');
+    h3.textContent = grp.group;
+    groupDiv.appendChild(h3);
+
+    grp.items.forEach((item, ii)=>{
+      const id = 'g'+gi+'i'+ii;
+      const row = document.createElement('div');
+      row.className = 'shop-item' + (saved[id] ? ' checked' : '');
+      row.innerHTML = `
+        <input type="checkbox" id="${id}" ${saved[id] ? 'checked' : ''}>
+        <label for="${id}">${item[0]}</label>
+        <span class="qty">${item[1]}</span>
+      `;
+      const cb = row.querySelector('input');
+      cb.addEventListener('change', ()=>{
+        saved[id] = cb.checked;
+        row.classList.toggle('checked', cb.checked);
+        localStorage.setItem('shopCheck', JSON.stringify(saved));
+      });
+      groupDiv.appendChild(row);
+    });
+
+    shopListEl.appendChild(groupDiv);
+  });
+
+  document.getElementById('resetShop').addEventListener('click', ()=>{
+    saved = {};
+    localStorage.setItem('shopCheck', '{}');
+    document.querySelectorAll('.shop-item input').forEach(cb=>{
+      cb.checked = false;
+      cb.closest('.shop-item').classList.remove('checked');
+    });
+  });
+</script>
+
+</body>
+</html>
