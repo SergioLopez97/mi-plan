@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
 <title>Mi Plan</title>
 <style>
   :root{
@@ -396,50 +398,6 @@
 </main>
 
 <script>
-  // ---- App icon (generado en canvas, sin archivos externos) ----
-  (function generateIcon(){
-    function roundRect(ctx,x,y,w,h,r){
-      ctx.beginPath();
-      ctx.moveTo(x+r,y);
-      ctx.arcTo(x+w,y,x+w,y+h,r);
-      ctx.arcTo(x+w,y+h,x,y+h,r);
-      ctx.arcTo(x,y+h,x,y,r);
-      ctx.arcTo(x,y,x+w,y,r);
-      ctx.closePath();
-    }
-    const canvas = document.createElement('canvas');
-    canvas.width = 180;
-    canvas.height = 180;
-    const ctx = canvas.getContext('2d');
-    const grad = ctx.createLinearGradient(0,0,180,180);
-    grad.addColorStop(0, '#4fd1a5');
-    grad.addColorStop(1, '#1f8f6f');
-    ctx.fillStyle = grad;
-    roundRect(ctx,0,0,180,180,34);
-    ctx.fill();
-    ctx.font = '90px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('🥗', 90, 98);
-    const dataUrl = canvas.toDataURL('image/png');
-
-    let touchIcon = document.querySelector("link[rel='apple-touch-icon']");
-    if(!touchIcon){
-      touchIcon = document.createElement('link');
-      touchIcon.rel = 'apple-touch-icon';
-      document.head.appendChild(touchIcon);
-    }
-    touchIcon.href = dataUrl;
-
-    let favicon = document.querySelector("link[rel='icon']");
-    if(!favicon){
-      favicon = document.createElement('link');
-      favicon.rel = 'icon';
-      document.head.appendChild(favicon);
-    }
-    favicon.href = dataUrl;
-  })();
-
   // ---- Tabs ----
   document.querySelectorAll('.tabbtn').forEach(btn=>{
     btn.addEventListener('click',()=>{
