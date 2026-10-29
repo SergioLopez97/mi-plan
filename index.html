@@ -2,12 +2,14 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<link rel="apple-touch-icon" href="icon.png">
-<link rel="icon" href="icon.png">
-<title>Mi Plan</title>
+<link rel="apple-touch-icon" href="app-icon-v2.png">
+<link rel="icon" href="app-icon-v2.png">
+<meta name="theme-color" content="#f6f5f1">
+<meta name="apple-mobile-web-app-title" content="Mi ritmo">
+<title>Mi ritmo · Tu semana</title>
 <style>
   :root{
     --bg:#0f1115;
@@ -259,135 +261,85 @@
     font-size:13px;
     margin-top:6px;
   }
+
+  :root{--bg:#101513;--card:#19211d;--card2:#202b25;--accent:#c5ed97;--accent2:#edbf83;--text:#f4f4eb;--muted:#abb8ae;--border:#344038;}
+  body{padding-bottom:110px;line-height:1.5;background:radial-gradient(ellipse at top right,#243a2b55,transparent 55%),var(--bg)}
+  header{max-width:1000px;margin:auto;text-align:left;padding:28px 22px 14px;display:flex;align-items:center;gap:12px}
+  header img{width:46px;height:46px;border-radius:14px}header h1{font-size:24px;letter-spacing:-1px}header p{font-size:13px}
+  main{max-width:1000px;padding:20px 22px 40px}nav{position:fixed;top:auto;bottom:0;left:0;right:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:#101513f5;backdrop-filter:blur(16px);border-top:1px solid var(--border);border-bottom:0;justify-content:center;gap:8px}nav button{max-width:170px;min-height:48px;border:0;background:transparent;font-size:13px;border-radius:14px}
+  button,input,select{font:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px}button:disabled{opacity:.55;cursor:default}
+  .eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:700}.hero{border:1px solid #4d6442;background:linear-gradient(135deg,#304630,#1b281f);padding:26px;border-radius:24px;margin-bottom:18px}.hero h2{font-size:clamp(28px,6vw,42px);line-height:1.12;letter-spacing:-1.5px;margin:12px 0}.hero p{max-width:560px;color:#d0dbc9;margin:12px 0}.pill{display:inline-block;border:1px solid var(--border);padding:5px 10px;border-radius:30px;font-size:12px;color:var(--muted);margin:4px 5px 4px 0}.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:18px}.panel{padding:22px;border:1px solid var(--border);border-radius:20px;background:var(--card);margin-bottom:18px}.panel h2,.panel h3{margin:0 0 10px;font-size:19px}.muted{color:var(--muted);font-size:14px}.primary,.secondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:11px 17px;border-radius:12px;font-weight:650;text-decoration:none;border:1px solid var(--border)}.primary{background:var(--accent);border-color:var(--accent);color:#142010}.secondary{background:var(--card2);color:var(--text)}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.week-days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:18px 0}.week-day{text-align:center;padding:10px 0;border-radius:12px;background:var(--card2);font-size:11px;color:var(--muted)}.week-day strong{display:block;font-size:17px;margin:3px 0}.week-day.planned{border:1px solid #71815a}.week-day.done{background:var(--accent);color:#142010}.week-day.today{outline:2px solid var(--accent2);outline-offset:2px}.progress-track{height:8px;background:var(--card2);border-radius:20px;overflow:hidden;margin:12px 0}.progress-track div{height:100%;background:var(--accent);border-radius:20px}.large-number{font-size:36px;font-weight:700;letter-spacing:-1px}.section-heading{font-size:25px;letter-spacing:-.7px;margin:0 0 6px}.day-card{border-radius:18px}.day-head{cursor:pointer;padding:15px;list-style:none}.day-head::-webkit-details-marker{display:none}.day-head .name:after{content:' +';color:var(--muted)}details[open]>.day-head .name:after{content:' −'}
+  .field{display:flex;flex-direction:column;gap:5px;color:var(--muted);font-size:12px}.field input,.field select,select{min-height:44px;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:10px;padding:9px;width:100%}.record-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}.exercise-index{color:var(--muted);font-size:12px;margin-bottom:5px}.ex-card{padding:20px;border-radius:18px}.exercise-tip{color:var(--muted);font-size:13px;margin:9px 0}.sets{font-size:14px!important}.checkline{display:flex;align-items:center;gap:9px;min-height:44px;font-size:14px}.checkline input{width:21px;height:21px;accent-color:var(--accent)}.day-toggle button{min-height:48px}.notice{padding:10px 14px;background:var(--card2);border-radius:12px;color:var(--muted);font-size:13px}.history-row{padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;display:flex;gap:12px;justify-content:space-between}.history-row button{color:var(--muted);border:0;background:transparent}.shop-item{min-height:55px}.qty{white-space:normal;text-align:right;max-width:45%;font-size:12px}.shop-group{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px}.video-link{min-height:40px}.tab[hidden]{display:none}.status{font-size:13px;color:var(--accent);min-height:20px}footer{color:var(--muted);font-size:12px;margin:20px 0}.meal .content{line-height:1.65}.note{border-radius:16px}#storageWarning{margin:12px 22px}#storageWarning[hidden]{display:none}
+  @media(max-width:650px){.grid{grid-template-columns:1fr;gap:0}main{padding:14px 16px 30px}header{padding:22px 16px 10px}.hero{padding:22px}.panel{padding:18px}.ex-top{align-items:flex-start}.week-day{font-size:10px}.primary,.secondary{font-size:14px}.hero h2{font-size:34px}}@media(prefers-reduced-motion:no-preference){.tab.active{animation:appear .2s ease-out}@keyframes appear{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
+
+
+/* Mi ritmo — warm, quiet dashboard */
+:root{--bg:#f6f5f1;--card:#fff;--card2:#f0f1eb;--accent:#dd542f;--accent2:#96623b;--text:#202b28;--muted:#63716b;--border:#e0e4dc}
+body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}header{padding-top:30px;padding-bottom:22px}header h1{font-size:25px;font-weight:800;letter-spacing:-1px}header img{border-radius:14px;width:48px;height:48px}header p{font-size:12px}.eyebrow{color:#8c4a32;letter-spacing:1.6px;font-size:10px}.hero{position:relative;background:#263e35;color:#fff;border:0;border-radius:24px;padding:30px;overflow:hidden}.hero:after{content:'';position:absolute;right:-70px;top:-90px;width:250px;height:250px;border:35px solid #b2c5a21a;border-radius:50%;pointer-events:none}.hero .eyebrow{color:#dfb18c}.hero h2{max-width:600px;font-weight:750;font-size:clamp(30px,6vw,44px);letter-spacing:-1.6px}.hero p{color:#d6e0d9}.hero .pill{border-color:#5c7065;color:#e0e8e1;background:#ffffff08}.hero .secondary{background:#ffffff0e;color:#fff;border-color:#6e7f75}.hero .primary{background:#f3c6a2;color:#2a352c;border-color:#f3c6a2}.panel{box-shadow:0 3px 18px #1d332905;border-radius:20px;padding:23px}.panel h2{letter-spacing:-.4px;font-size:20px}.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.secondary{background:#fff;color:var(--text);border-color:#d9dfd5}.secondary:hover,.text-button:hover{background:#f0f1eb}.grid{grid-template-columns:1.15fr 1fr;gap:18px}.week-day{background:#f0f2ec;color:#617068;border:1px solid transparent;min-height:80px;font-size:11px;cursor:pointer;padding:10px 0}.week-day.planned{border-color:#a9b9a5;background:#edf3e7}.week-day.done{background:#294f3d;color:white;border-color:#294f3d}.week-day.today{outline:2px solid #dc7755;outline-offset:2px}.week-day:disabled{cursor:default;opacity:.5}.week-day strong{font-size:18px}.week-days{gap:6px}.progress-track{background:#edf0e9}.progress-track div{background:#598067}.large-number{font-size:44px}.small{font-size:12px;color:var(--muted);line-height:1.6}.hero .small{color:#d6e0d9}nav{background:#fffffff2;box-shadow:0 -4px 20px #1d332908;border-color:#e0e4dc;padding-top:9px}nav button{color:#69766f;font-size:12px;max-width:150px}nav button.active{background:#e9efe3;color:#284635}.field input,.field select,select{background:#fafbf8;border-color:#dce2d7;color:var(--text);min-width:0}.field{min-width:0}.record-fields{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.notice,.note{background:#eef0e9;color:#5a685f;border-color:#dfe4d8}.note.warn{background:#fff4e9;color:#825d36;border-color:#e8c8a5}.ex-card{background:white}.day-toggle button.active{background:#294f3d;color:white;border-color:#294f3d}.video-link{background:#f6f5f0;color:#825332}.badge.home{background:#e8efdf;color:#40643e}.badge{background:#f9eada;color:#94602f}.meal .content b{color:#37603e}.status{color:#37603e}.metric-inline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0}.metric-inline strong{font-size:33px;font-weight:750;letter-spacing:-1px}.metric-inline small{display:block;color:var(--muted);font-size:12px}.text-button{background:transparent;border:0;color:#9f482e;font-size:13px;font-weight:600;padding:10px;border-radius:10px}.metric-summary{margin-top:20px;font-size:13px;color:var(--muted)}.metric-summary strong{display:block;font-size:29px;color:var(--text);letter-spacing:-.8px}.chart{margin:12px 0}.chart svg{width:100%;display:block;height:auto}.empty-chart{border:1px dashed #d4dbcf;border-radius:12px;padding:28px 16px;text-align:center;font-size:13px;color:var(--muted)}.calendar-options{position:relative;border-top:1px solid #62796b;margin-top:20px;padding-top:12px}.calendar-options h3{font-size:16px}.calendar-options p{font-size:13px}.calendar-options[hidden]{display:none}.history-row{align-items:center}.history-row button{padding:8px;border-radius:8px}.history-row button:hover{background:var(--card2)}.section-heading{margin-top:5px;font-size:30px;letter-spacing:-1px}.reset-btn{color:var(--text)}
+@media(max-width:650px){.grid{grid-template-columns:1fr;gap:0}.hero{padding:25px}.panel{padding:20px}.week-days{gap:5px}nav{gap:2px;padding-left:8px;padding-right:8px}nav button{padding:10px 2px;font-size:11px;min-width:0}.week-day{min-height:76px}.record-fields{gap:10px}.hero h2{font-size:35px}}
+
+
+.menu-toolbar h3{margin:6px 0}.menu-toolbar .field{max-width:440px}.meal-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.meal-heading .label{margin:0}.meal-picker{font-size:13px;margin:6px 0 10px;background:#fafbf8;max-width:100%}.custom-fields textarea{width:100%;min-height:80px;resize:vertical;border:1px solid var(--border);border-radius:10px;background:#fafbf8;color:var(--text);padding:10px;font:inherit;font-size:13px}.custom-fields .field{margin:10px 0}.calorie-note{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:12px;color:var(--muted);font-size:12px}.calorie-note input{width:100px;min-height:40px;background:#fafbf8;border:1px solid var(--border);border-radius:8px;padding:8px;color:var(--text)}.day-total{font-size:12px;padding:12px 15px;background:#f0f3eb;color:#5a685f}.meal-name{font-weight:700;font-size:14px;margin:3px 0}.shopping-help{margin-bottom:15px}.home-menu-line{display:block;margin:9px 0}.home-menu-line strong{color:var(--text);display:block;font-size:12px}.custom-fields[hidden]{display:none}
+
+
+.menu-intro{margin:16px 0 12px}.menu-guidance{margin:12px 0;font-size:12px}.menu-guidance summary{cursor:pointer}.menu-toolbar{border:1px solid var(--border);background:#fff;border-radius:14px;margin:0 0 12px}.menu-toolbar>summary{padding:13px 15px;display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:13px;font-weight:600;cursor:pointer;list-style:none}.menu-toolbar>summary::-webkit-details-marker{display:none}.menu-toolbar[open]>summary{border-bottom:1px solid var(--border)}.menu-toolbar[open]>summary>span{transform:rotate(45deg)}.breakfast-tools-body{padding:16px}.repeat-days{border:0;padding:0;margin:16px 0}.repeat-days legend{font-size:12px;color:var(--muted);margin-bottom:10px}.repeat-day-options{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;max-width:400px}.repeat-day-options label{position:relative;cursor:pointer;min-width:0}.repeat-day-options input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}.repeat-day-options span{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid var(--border);border-radius:10px;background:var(--card2);font-size:13px}.repeat-day-options input:checked+span{background:#294f3d;color:white;border-color:#294f3d}.repeat-day-options input:focus-visible+span{outline:3px solid var(--accent);outline-offset:2px}.menu-reset{margin:16px 0;padding:12px 0;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}.menu-reset summary{cursor:pointer}#menuStatus:empty{display:none}#menuStatus:not(:empty){margin:8px 0 14px}
+
 </style>
 </head>
 <body>
 
-<header>
-  <h1>🥗 Mi Plan Semanal</h1>
-  <p>Menú · Entrenamiento · Lista de la compra</p>
-</header>
-
-<nav>
-  <button class="tabbtn active" data-tab="menu">Menú</button>
-  <button class="tabbtn" data-tab="entreno">Entreno</button>
-  <button class="tabbtn" data-tab="compra">Compra</button>
-</nav>
-
+<header><img src="brand.svg" alt="" width="46" height="46"><div><h1>Mi ritmo</h1><p>Un poco cada día. A tu manera.</p></div></header>
+<div id="storageWarning" class="note warn" role="status" hidden>No se pueden guardar datos en este navegador. Podrás usar el plan, pero los cambios se perderán al cerrar.</div>
+<nav aria-label="Secciones"><button class="tabbtn active" data-tab="hoy" aria-current="page">Hoy</button><button class="tabbtn" data-tab="entreno">Fuerza</button><button class="tabbtn" data-tab="progreso">Progreso</button><button class="tabbtn" data-tab="menu">Menú</button><button class="tabbtn" data-tab="compra">Compra</button></nav>
 <main>
-
+<section id="hoy" class="tab active" aria-label="Tu día">
+<div class="hero"><div class="eyebrow" id="todayDate"></div><h2 id="todayTitle"></h2><p id="todayMessage"></p><span class="pill">VivaGym Vallecas</span><span class="pill">Lun + vie · 13:15–13:50</span><div class="actions"><button class="primary" data-open="entreno">Empezar mi sesión →</button><button class="secondary" id="calendarDownload" aria-expanded="false" aria-controls="calendarOptions">Organizar horarios</button></div><div id="calendarOptions" class="calendar-options" hidden><h3>Elige tu calendario</h3><p>No se añade nada sin que lo confirmes en tu calendario.</p><div class="actions"><a class="secondary" id="googleCalendar" target="_blank" rel="noopener noreferrer">Google Calendar ↗</a><button class="secondary" id="downloadICS">Descargar .ics</button></div><p class="small">El archivo .ics se puede importar en Apple Calendar u Outlook. En iPhone, las opciones para abrirlo dependen de la app. Lunes y viernes, 13:15–13:50, hora de Madrid.</p></div></div>
+<div class="grid"><div><article class="panel"><div class="eyebrow">Constancia, sin rachas</div><h2>Tu semana</h2><div id="weekDays" class="week-days"></div><span class="large-number" id="weekCount"></span><span class="muted"> sesiones de fuerza / objetivo 2</span><div class="progress-track" role="progressbar" aria-label="Sesiones de esta semana" aria-valuemin="0" aria-valuemax="2" id="weekProgress"><div id="weekBar"></div></div><p class="muted" id="weekMessage"></p><p class="small">Toca un día pasado o de hoy para registrar su sesión. El ✓ aparece cuando guardas los cuatro ejercicios en Fuerza.</p><button class="secondary" data-open="entreno">Registrar entrenamiento →</button></article><article class="panel"><div class="eyebrow">Movimiento</div><h2>Más allá del gimnasio</h2><p class="muted">Tus paseos y la bici cuentan como actividad. No necesitas convertirlos en otra obligación.</p><div class="actions"><button class="secondary" id="logWalk">+ Paseo hoy</button><button class="secondary" id="logBike">+ Bici hoy</button></div><div class="metric-inline"><span><strong id="homeSteps">—</strong><small>pasos hoy</small></span><button class="text-button" data-open="progreso">Registrar pasos →</button></div><div id="activityHistory"></div></article></div><div><article class="panel"><div class="eyebrow">Antes de las 13:15</div><h2>Deja fácil el primer paso</h2><p class="muted">Mochila preparada, hueco bloqueado y tiempo para cambiarte y comer después.</p><p class="muted"><strong>¿Poca energía?</strong> Haz una serie de cada máquina. La sesión corta también cuenta. Si estás exhausto o te encuentras mal, descansa.</p></article><article class="panel"><div class="eyebrow">Sin prisas</div><h2>Tu peso, con perspectiva</h2><div class="metric-inline"><span><strong id="homeWeight">—</strong><small>último registro · kg</small></span><button class="text-button" data-open="progreso">Ver evolución →</button></div></article><article class="panel"><h2>Hoy en el menú</h2><div id="todayMeal" class="muted"></div><div class="actions"><button class="secondary" id="openTodayMenu">Ver comidas de hoy →</button></div></article></div></div>
+<article class="panel"><h2>Últimas sesiones</h2><div id="sessionHistory"></div><div class="actions"><button class="secondary" id="exportData">Guardar copia de mis datos</button><label class="secondary" for="importData">Restaurar copia</label><input type="file" id="importData" accept="application/json,.json" hidden></div><p class="muted">El seguimiento se guarda en este navegador, sin cuenta. No se sincroniza entre el PC y el iPhone.</p><div id="dataStatus" class="status" role="status"></div></article>
+</section>
+<section id="progreso" class="tab" aria-label="Pasos y peso">
+<div class="eyebrow">La perspectiva importa</div><h2 class="section-heading">Tu progreso, a tu ritmo.</h2><p class="muted">Registra lo que te sea útil. Sin puntos, sin prisas.</p>
+<div class="grid"><article class="panel"><div class="eyebrow">Actividad diaria</div><h2>Pasos</h2><p class="muted">Copia el total de tu móvil o reloj. El registro es manual; no está conectado con Salud del iPhone.</p><form id="stepsForm"><div class="record-fields"><label class="field">Fecha<input type="date" id="stepsDate" required></label><label class="field">Pasos del día<input type="number" id="stepsValue" min="0" max="200000" step="1" inputmode="numeric" placeholder="Ej. 6500" required></label></div><div class="actions"><button class="primary" type="submit">Guardar pasos</button></div></form><div class="status" id="stepsStatus" role="status"></div><div id="stepsSummary" class="metric-summary"></div><div id="stepsChart" class="chart"></div><div id="stepsHistory"></div></article>
+<article class="panel"><div class="eyebrow">Una tendencia, no un examen</div><h2>Peso corporal</h2><p class="muted">Si decides pesarte, intenta hacerlo en condiciones similares. Puedes registrar decimales; no hace falta hacerlo a diario.</p><form id="weightForm"><div class="record-fields"><label class="field">Fecha<input type="date" id="weightDate" required></label><label class="field">Peso en kg<input type="number" id="weightValue" min="20" max="400" step="0.1" inputmode="decimal" placeholder="Ej. 90,5" required></label></div><div class="actions"><button class="primary" type="submit">Guardar peso</button></div></form><div class="status" id="weightStatus" role="status"></div><div id="weightSummary" class="metric-summary"></div><div id="weightChart" class="chart"></div><div id="weightHistory"></div></article></div>
+<div class="notice">Una fecha = un registro de cada tipo. Si guardas otra cifra para el mismo día, se actualiza. Pasos, peso y entrenamientos se incluyen en tu copia de datos.</div>
+</section>
   <!-- ===================== MENU ===================== -->
-  <section id="menu" class="tab active">
+  <section id="menu" class="tab" aria-label="Menú semanal">
+<h2 class="section-heading">Comer sin complicarte</h2><p class="muted">Cambia de desayuno, intercambia platos y haz tuya la semana.</p>
 
-    <div class="note">
-      Objetivo aproximado: <b style="color:var(--text)">1850-1950 kcal/día</b> — déficit algo agresivo (~600-700 kcal/día) para acelerar la pérdida de grasa, proteína moderada (~95-100g/día repartidos, sin picos). Aceite de oliva virgen extra (AOVE) medido en cucharadas soperas (1 cda ≈ 10g).
-    </div>
-    <div class="note warn">
-      ⚠️ La proteína isolada se ha ajustado a <b>20-25g</b> (una cacito y medio aprox.) en vez de 50g, por la displasia renal. Confirma con tu nefrólogo/nutricionista tu límite exacto de proteína total al día.
-    </div>
+<details class="note menu-guidance"><summary>Sobre las cantidades de este menú</summary><p>Es una semana tipo editable, no un diario de lo que has comido. Las cantidades son un borrador pendiente de revisión: no representan un objetivo verificado de calorías, proteína o déficit.</p><p>En este menú, «1 cda de AOVE» significa 10 g de aceite pesados, no una cucharada doméstica.</p><p>Con tu situación renal, confirma la proteína diaria y los suplementos con tu equipo médico o dietista renal. No suponemos otras restricciones que no te hayan indicado.</p></details>
+<div class="menu-intro"><span class="small">Abre un día y elige tus platos. La compra se actualiza sola.</span></div>
+<details class="menu-toolbar" id="breakfastTools"><summary>Repetir un desayuno en varios días <span aria-hidden="true">＋</span></summary><div class="breakfast-tools-body"><label class="field">¿Qué desayuno?<select id="allBreakfast" aria-label="Desayuno para repetir"><option value="">Elegir desayuno…</option></select></label><fieldset class="repeat-days"><legend>¿Qué días quieres cambiar?</legend><div id="breakfastDays" class="repeat-day-options"></div></fieldset><p class="small">Solo se cambian los días que marques; el resto queda como lo has elegido.</p><button class="primary" id="applyBreakfast" disabled>Elige desayuno y días</button></div></details>
+<div id="menuStatus" class="status" role="status"></div>
 
-    <!-- LUNES -->
-    <div class="day-card">
-      <div class="day-head"><span class="name">Lunes</span><span class="badge home">Casa</span></div>
-      <div class="meal"><div class="label">Desayuno</div><div class="content">Bocadillo de lomo: <b>2 rebanadas pan de espelta (90g)</b> + <b>lomo embutido (80g, 6-7 lonchas)</b> + tomate rallado (50g) + <b>1 cda AOVE</b></div></div>
-      <div class="meal"><div class="label">Comida</div><div class="content">Arroz con pollo y verduras: <b>arroz crudo 90g</b> + <b>pechuga de pollo 150g</b> + pimiento/cebolla/calabacín (150g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20arroz%20con%20pollo%20y%20verduras%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
-      <div class="meal"><div class="label">Merienda</div><div class="content">Fruta (manzana o pera, 150g) + <b>nueces 25g</b> (8-9 unidades)</div></div>
-      <div class="meal"><div class="label">Cena</div><div class="content"><b>Merluza al horno 150g</b> + patata cocida (250g) + ensalada (lechuga, tomate, zanahoria 150g) + <b>1 1/2 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20merluza%20al%20horno%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
-    </div>
-
-    <!-- MARTES -->
-    <div class="day-card office">
-      <div class="day-head"><span class="name">Martes</span><span class="badge">Oficina</span></div>
-      <div class="meal"><div class="label">Desayuno</div><div class="content">Pan integral con tomate: <b>2 rebanadas pan integral (80g)</b> + tomate rallado (50g) + <b>1 cda AOVE</b> + jamón serrano (30g)</div></div>
-      <div class="meal"><div class="label">Media mañana (oficina)</div><div class="content">1 pieza de fruta (de la oficina)</div></div>
-      <div class="meal"><div class="label">Comida</div><div class="content">En la oficina — ver pauta general abajo ⬇️ (apunta a un plato consistente, ~700-750 kcal)</div></div>
-      <div class="meal"><div class="label">Merienda (oficina)</div><div class="content">1 pieza de fruta (de la oficina) + <b>nueces 25g</b> (llévalas de casa)</div></div>
-      <div class="meal"><div class="label">Cena</div><div class="content"><b>Salmón 130g</b> al horno + mezcla congelada de batata, patata y cebolla roja (250g) al horno + brócoli al vapor (150g) + <b>1 1/2 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20salm%C3%B3n%20al%20horno%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
-    </div>
-
-    <!-- MIERCOLES -->
-    <div class="day-card office">
-      <div class="day-head"><span class="name">Miércoles</span><span class="badge">Oficina</span></div>
-      <div class="meal"><div class="label">Desayuno</div><div class="content">Pan integral con tomate: <b>2 rebanadas pan integral (80g)</b> + tomate rallado (50g) + <b>1 cda AOVE</b></div></div>
-      <div class="meal"><div class="label">Media mañana (oficina)</div><div class="content">1 pieza de fruta (de la oficina)</div></div>
-      <div class="meal"><div class="label">Comida</div><div class="content">En la oficina — ver pauta general abajo ⬇️ (apunta a un plato consistente, ~700-750 kcal)</div></div>
-      <div class="meal"><div class="label">Merienda (oficina)</div><div class="content">1 pieza de fruta (de la oficina) + <b>nueces 25g</b> (llévalas de casa)</div></div>
-      <div class="meal"><div class="label">Cena</div><div class="content">Tortilla francesa (<b>2 huevos, 100g</b>) + verduras salteadas (calabacín, judía verde, pimiento 150g) + pan (60g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20tortilla%20francesa%20con%20verduras%20salteadas" target="_blank" rel="noopener">▶ Receta</a></div></div>
-    </div>
-
-    <!-- JUEVES -->
-    <div class="day-card office">
-      <div class="day-head"><span class="name">Jueves</span><span class="badge">Oficina</span></div>
-      <div class="meal"><div class="label">Desayuno</div><div class="content">Pan integral con tomate: <b>2 rebanadas pan integral (80g)</b> + tomate rallado (50g) + <b>1 cda AOVE</b></div></div>
-      <div class="meal"><div class="label">Media mañana (oficina)</div><div class="content">1 pieza de fruta (de la oficina)</div></div>
-      <div class="meal"><div class="label">Comida</div><div class="content">En la oficina — ver pauta general abajo ⬇️ (apunta a un plato consistente, ~700-750 kcal)</div></div>
-      <div class="meal"><div class="label">Merienda (oficina)</div><div class="content">1 pieza de fruta (de la oficina) + <b>nueces 25g</b> (llévalas de casa)</div></div>
-      <div class="meal"><div class="label">Cena</div><div class="content"><b>Pechuga de pollo a la plancha 150g</b> + ensalada (150g) + pan (60g) + <b>1 cda AOVE</b></div></div>
-    </div>
-
-    <!-- VIERNES -->
-    <div class="day-card">
-      <div class="day-head"><span class="name">Viernes</span><span class="badge home">Casa</span></div>
-      <div class="meal"><div class="label">Desayuno</div><div class="content">Yogur proteico: yogur natural (125g) + canela o cacao puro sin azúcar + <b>proteína isolada 20-25g</b> + granola (40g) + fruta (plátano/fresas 100g)</div></div>
-      <div class="meal"><div class="label">Comida</div><div class="content">Lentejas con verduras: <b>lentejas crudas 100g</b> + zanahoria/puerro/pimiento (150g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20lentejas%20con%20verduras%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
-      <div class="meal"><div class="label">Merienda</div><div class="content">Fruta (150g) + nueces (25g)</div></div>
-      <div class="meal"><div class="label">Cena</div><div class="content"><b>Pescado blanco 150g</b> (merluza/lenguado) + patata (250g) + verdura al vapor (150g) + <b>1 cda AOVE</b></div></div>
-    </div>
-
-    <!-- SABADO -->
-    <div class="day-card">
-      <div class="day-head"><span class="name">Sábado</span><span class="badge home">Casa</span></div>
-      <div class="meal"><div class="label">Desayuno</div><div class="content">Bocadillo de lomo: <b>2 rebanadas pan de espelta (90g)</b> + <b>lomo embutido (80g, 6-7 lonchas)</b> + tomate (50g) + <b>1 cda AOVE</b></div></div>
-      <div class="meal"><div class="label">Comida</div><div class="content">Pasta integral con atún: <b>pasta integral cruda 90g</b> + <b>atún al natural 1 lata (52g escurrido)</b> + tomate triturado (100g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20pasta%20con%20at%C3%BAn%20y%20tomate%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
-      <div class="meal"><div class="label">Merienda</div><div class="content">Yogur natural (125g) + canela o cacao puro sin azúcar al gusto + fruta (150g)</div></div>
-      <div class="meal"><div class="label">Cena</div><div class="content"><b>Pavo a la plancha 150g</b> + pisto de verduras (calabacín, pimiento, cebolla, tomate 150g) + pan (60g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20pisto%20de%20verduras%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
-    </div>
-
-    <!-- DOMINGO -->
-    <div class="day-card">
-      <div class="day-head"><span class="name">Domingo</span><span class="badge home">Casa</span></div>
-      <div class="meal"><div class="label">Desayuno</div><div class="content">Yogur proteico: yogur natural (125g) + canela o cacao puro sin azúcar + <b>proteína isolada 20-25g</b> + granola (40g) + fruta (100g)</div></div>
-      <div class="meal"><div class="label">Comida</div><div class="content">Arroz con pavo: <b>arroz crudo 90g</b> + <b>pavo 150g</b> + verduras variadas (150g) + <b>1 cda AOVE</b></div></div>
-      <div class="meal"><div class="label">Merienda</div><div class="content">Fruta (150g) + <b>nueces 15g</b></div></div>
-      <div class="meal"><div class="label">Cena</div><div class="content">Crema de verduras (250g de verdura variada) + tortilla francesa (<b>2 huevos</b>) + pan (40g) + <b>1 cda AOVE</b><br><a class="video-link" href="https://www.youtube.com/results?search_query=receta%20crema%20de%20verduras%20f%C3%A1cil" target="_blank" rel="noopener">▶ Receta</a></div></div>
-    </div>
-
+<div id="dynamicMenu"></div><details class="note"><summary>¿Y calcular calorías con una foto?</summary><p>El análisis de fotos todavía no está conectado. Puedes enviarla en el chat para obtener una estimación y anotar aquí el resultado. Una foto no permite medir con precisión el aceite ni las cantidades; revisa siempre la estimación. No hay subida ni almacenamiento de fotos en esta web.</p></details>
+<details class="menu-reset"><summary>Opciones del menú</summary><p class="small">Recuperar el menú inicial borra tus cambios de platos y las calorías anotadas. No afecta a entrenamientos, pasos ni peso.</p><button class="text-button" id="resetMenu">Recuperar menú inicial</button></details>
     <div class="note">
       <b style="color:var(--text)">Pauta para comida de oficina (martes/miércoles/jueves):</b><br>
       · Elige plato con verdura + ración moderada de proteína (120-150g carne/pescado, o legumbre)<br>
       · Un carbohidrato de acompañamiento (arroz, patata, pasta)<br>
       · Evita fritos, salsas y embutidos procesados<br>
-      · Controla la sal añadida (importante también para el riñón)<br>
+      · Ajusta la sal a las indicaciones que tengas<br>
       · Agua o infusión, evita refrescos
     </div>
 
   </section>
 
   <!-- ===================== ENTRENO ===================== -->
-  <section id="entreno" class="tab">
-
-    <div class="cardio-box">
-      🏃 <b>Cinta (30 min, todos los días de entreno):</b> ritmo constante suave, con 4-5 intervalos de 1 minuto algo más rápido intercalados.
-    </div>
-
-    <div class="day-toggle">
-      <button class="dtbtn active" data-day="a">Día A</button>
-      <button class="dtbtn" data-day="b">Día B</button>
-    </div>
-
-    <div id="dayA"></div>
-    <div id="dayB" style="display:none;"></div>
-
-    <div class="note">
-      Alterna A/B en 3-4 sesiones por semana (ej. Lunes A, Miércoles B, Viernes A, Sábado B). Descanso 60-90s entre series. Sube el peso poco a poco cuando completes las 12 reps con buena forma en todas las series.
-    </div>
-
-  </section>
+  <section id="entreno" class="tab" aria-label="Rutina de fuerza">
+<h2 class="section-heading">Tu sesión, sin darle vueltas</h2><p class="muted">Lunes y viernes · 13:15–13:50 · VivaGym Vallecas</p>
+<div class="day-toggle" role="group" aria-label="Duración de la sesión"><button class="modebtn active" data-mode="normal" aria-pressed="true">Normal · 30–35 min</button><button class="modebtn" data-mode="short" aria-pressed="false">Corta · 15–20 min</button></div>
+<div class="notice" id="modeDescription">5 minutos de cinta suave y 2 series por máquina. Descansa 60–90 segundos; deja 2–3 repeticiones en reserva.</div>
+<div class="panel" style="margin-top:16px"><label class="field" for="sessionDate">Fecha de la sesión<input id="sessionDate" type="date"></label><p class="muted">Puedes registrar una sesión de recuperación del fin de semana. Una sesión de fuerza por fecha.</p><div class="actions"><button class="secondary" id="restTimer">Descanso · iniciar 75 s</button><button class="secondary" id="stopTimer" hidden>Parar</button></div><div id="timerStatus" role="status" class="status"></div></div>
+<div id="exerciseList"></div>
+<div class="panel"><h2>Hecho por hoy</h2><p class="muted">Marca los cuatro ejercicios para completar la sesión. La versión corta cuenta igual para tu objetivo de dos visitas.</p><button class="primary" id="completeSession" disabled>Guardar sesión completada</button><div id="sessionStatus" class="status" role="status"></div></div>
+<div class="note">Pide al monitor que te ayude a regular cada máquina. Los enlaces abren búsquedas de técnica en YouTube, no vídeos revisados. Si una máquina está ocupada, cambia el orden. Sube la carga solo cuando completes las repeticiones con buena técnica y margen.</div>
+</section>
 
   <!-- ===================== COMPRA ===================== -->
   <section id="compra" class="tab">
 
-    <div class="note">Lista pensada para Mercadona. Marca lo que ya tengas o vayas metiendo al carro — se guarda automáticamente.</div>
+    <h2 class="section-heading">Compra con el plan a mano</h2><p class="muted">Mercadona · ingredientes de tu selección actual.</p><div class="note">Marca lo que ya tengas o añadas al carro. La fruta que figura como «de oficina» no se añade a la compra. Los ingredientes de platos propios se muestran aparte, tal como los escribas. Revisa tu despensa antes de comprar.</div><p id="shopProgress" class="muted" role="status"></p>
 
     <div id="shopList"></div>
 
@@ -398,153 +350,220 @@
 </main>
 
 <script>
-  // ---- Tabs ----
-  document.querySelectorAll('.tabbtn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.tab).classList.add('active');
-    });
+
+const $ = id => document.getElementById(id);
+const STORAGE = 'miRitmoV1';
+function readStore(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
+function safeSave(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { $('storageWarning').hidden = false; } }
+function localDate(d = new Date()) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+const today = localDate();
+const exercises = [
+  { id:'prensa', name:'Prensa horizontal de piernas', tip:'Ajusta el asiento con ayuda del monitor; apoya la espalda y mueve la carga sin rebotes.' },
+  { id:'pecho', name:'Press de pecho en máquina', tip:'Regula el asiento para situar los agarres a la altura del pecho. Empuja con control.' },
+  { id:'remo', name:'Remo sentado en máquina', tip:'Mantén el tronco estable y lleva los codos hacia atrás sin dar tirones.' },
+  { id:'femoral', name:'Curl femoral en máquina', tip:'Pide que te ajusten el rodillo y el eje de la máquina antes de empezar.' }
+];
+let state = readStore(STORAGE, { sessions:{}, drafts:{}, activities:{} });
+function validState(v) {
+  if (!v || typeof v !== 'object' || Array.isArray(v)) return false;
+  for (const key of ['sessions','drafts','activities']) {
+    if (!v[key] || typeof v[key] !== 'object' || Array.isArray(v[key])) return false;
+    for (const [date,item] of Object.entries(v[key])) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !item || typeof item !== 'object' || (key !== 'activities' && Array.isArray(item))) return false;
+      if (key === 'activities' && (!Array.isArray(item) || item.some(x=>!['walk','bike'].includes(x)) || item.length>2)) return false;
+      if (key !== 'activities') {
+        if (!['normal','short'].includes(item.mode) || !item.exercises || typeof item.exercises !== 'object') return false;
+        for (const ex of exercises) {
+          const entry = item.exercises[ex.id];
+          if (!entry || typeof entry !== 'object' || typeof entry.done !== 'boolean') return false;
+          for(const field of ['kg','reps']) if (typeof entry[field] !== 'string' || entry[field].length>12 || (entry[field]!=='' && !/^\d+(?:[.,]\d+)?$/.test(entry[field]))) return false;
+        }
+      }
+    }
+  }
+  for (const [field,min,max] of [['steps',0,200000],['weights',20,400]]) {
+    if (v[field] !== undefined) {
+      if (!v[field] || typeof v[field] !== 'object' || Array.isArray(v[field])) return false;
+      for (const [date,value] of Object.entries(v[field])) if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || typeof value !== 'number' || !Number.isFinite(value) || value<min || value>max || (field==='steps' && !Number.isInteger(value))) return false;
+    }
+  }
+  if(v.menu!==undefined){
+    if(!v.menu || typeof v.menu!=='object' || Array.isArray(v.menu))return false;
+    for(const [key,item] of Object.entries(v.menu)){
+      if(!/^d[0-6]m[0-5]$/.test(key)||!item||typeof item!=='object'||Array.isArray(item))return false;
+      if(typeof item.recipe!=='string'||item.recipe.length>80||typeof item.custom!=='string'||item.custom.length>1200||typeof item.groceries!=='string'||item.groceries.length>1200||typeof item.kcal!=='string'||(item.kcal!==''&&(!/^\d{1,5}$/.test(item.kcal)||Number(item.kcal)>10000)))return false;
+    }
+  }
+  return true;
+}
+if (!validState(state)) state = { sessions:{}, drafts:{}, activities:{} };
+if (!state.steps || typeof state.steps !== 'object' || Array.isArray(state.steps)) state.steps = {};
+if (!state.weights || typeof state.weights !== 'object' || Array.isArray(state.weights)) state.weights = {};
+state.menu??={};
+function persist() { safeSave(STORAGE, state); }
+try { localStorage.setItem('miRitmoStorageTest','1'); localStorage.removeItem('miRitmoStorageTest'); } catch { $('storageWarning').hidden=false; }
+function openTab(id) {
+  document.querySelectorAll('.tab').forEach(el => el.classList.toggle('active',el.id===id));
+  document.querySelectorAll('.tabbtn').forEach(btn=>{btn.classList.toggle('active',btn.dataset.tab===id); if(btn.dataset.tab===id) btn.setAttribute('aria-current','page'); else btn.removeAttribute('aria-current');});
+  window.scrollTo({top:0,behavior:'instant'});
+}
+document.querySelectorAll('[data-tab],[data-open]').forEach(btn=>btn.addEventListener('click',()=>openTab(btn.dataset.tab||btn.dataset.open)));
+$('openTodayMenu').onclick=()=>{openTab('menu');document.querySelectorAll('#dynamicMenu .day-card').forEach((d,i)=>d.open=i===(new Date().getDay()+6)%7);};
+$('todayDate').textContent = new Intl.DateTimeFormat('es-ES',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
+function weekStart() { const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-(d.getDay()+6)%7);return d; }
+function renderHome() {
+  $('homeSteps').textContent = state.steps[today]===undefined ? '—' : state.steps[today].toLocaleString('es-ES');
+  const lastWeight=Object.keys(state.weights).sort().at(-1);
+  $('homeWeight').textContent=lastWeight?state.weights[lastWeight].toLocaleString('es-ES',{minimumFractionDigits:1,maximumFractionDigits:1}):'—';
+  const doneToday=Boolean(state.sessions[today]);
+  const planned=[1,5].includes(new Date().getDay());
+  $('todayTitle').textContent=doneToday?'Por hoy, hecho.':planned?'Hoy tienes una cita contigo.':'Hoy, a tu ritmo.';
+  $('todayMessage').textContent=doneToday?'Ya has registrado tu sesión. La próxima visita importa más que hacer más hoy.':planned?'A las 13:15, cinco minutos para empezar. Después, cuatro máquinas y listo.':'Puedes caminar, salir en bici o descansar. Tu próxima sesión fija es '+(new Date().getDay()===0?'mañana lunes.':new Date().getDay()<5?'el viernes.':'el lunes.');
+  let count=0; const root=$('weekDays');root.replaceChildren();
+  ['L','M','X','J','V','S','D'].forEach((label,i)=>{
+    const d=weekStart();d.setDate(d.getDate()+i);const key=localDate(d);const done=Boolean(state.sessions[key]);if(done)count++;
+    const el=document.createElement('button');el.type='button';el.disabled=key>today;el.setAttribute('aria-label',d.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'})+(done?' · sesión completada':' · registrar sesión'));el.onclick=()=>{$('sessionDate').value=key;loadSession();openTab('entreno');};el.className='week-day'+([0,4].includes(i)?' planned':'')+(done?' done':'')+(key===today?' today':'');
+    el.innerHTML=`${label}<strong>${d.getDate()}</strong>${done?'✓':([0,4].includes(i)?'Fuerza':'·')}`;root.append(el);
   });
-
-  // ---- Workout exercises ----
-  const workouts = {
-    a: [
-["Prensa horizontal de piernas", "3 x 10-12"],
-      ["Press de pecho en máquina", "3 x 10-12"],
-      ["Jalón al pecho (polea)", "3 x 10-12"],
-      ["Remo sentado en máquina", "3 x 10-12"],
-      ["Extensión de cuádriceps", "3 x 12"],
-      ["Abdominal en máquina", "3 x 15"],
-    ],
-    b: [
-      ["Press militar en máquina", "3 x 10-12"],
-      ["Curl femoral (isquios)", "3 x 12"],
-      ["Peck deck (aperturas)", "3 x 12"],
-      ["Remo en polea baja", "3 x 10-12"],
-      ["Elevaciones laterales (polea/máquina)", "3 x 12-15"],
-      ["Plancha abdominal", "3 x 30-40s"],
-    ],
-  };
-
-  Object.keys(workouts).forEach(day=>{
-    const container = document.getElementById('day' + day.toUpperCase());
-    workouts[day].forEach(([name, sets])=>{
-      const query = encodeURIComponent(name + " técnica correcta ejercicio");
-      const card = document.createElement('div');
-      card.className = 'ex-card';
-      card.innerHTML = `
-        <div class="ex-top">
-          <span class="exname">${name}</span>
-          <span class="sets">${sets}</span>
-        </div>
-        <a class="video-link" href="https://www.youtube.com/results?search_query=${query}" target="_blank" rel="noopener">▶ Cómo hacerlo</a>
-      `;
-      container.appendChild(card);
-    });
+  $('weekCount').textContent=count;$('weekBar').style.width=`${Math.min(count/2,1)*100}%`;$('weekProgress').setAttribute('aria-valuenow',Math.min(count,2));
+  $('weekMessage').textContent=count>=2?'Objetivo semanal cumplido. Sigue con tu ritmo.':count===1?'Una visita hecha. Busca el segundo hueco sin compensar con una sesión doble.':'Dos oportunidades esta semana. La versión corta también suma.';
+  const history=$('sessionHistory');history.replaceChildren();
+  const dates=Object.keys(state.sessions).sort().reverse().slice(0,8);
+  if(!dates.length)history.textContent='Tu primera sesión aparecerá aquí. Empezamos con dos visitas por semana.';
+  dates.forEach(date=>{
+    const row=document.createElement('div');row.className='history-row';const label=document.createElement('span');label.textContent=`${new Date(date+'T12:00:00').toLocaleDateString('es-ES')} · ${state.sessions[date].mode==='short'?'Corta':'Normal'}`;
+    const btn=document.createElement('button');btn.textContent='Deshacer';btn.setAttribute('aria-label','Deshacer sesión del '+date);btn.onclick=()=>{if(confirm('¿Deshacer el registro de esta sesión?')){state.drafts[date]=state.sessions[date];delete state.sessions[date];persist();renderHome();loadSession();renderMetrics();}};row.append(label,btn);history.append(row);
   });
+  const activity=$('activityHistory');activity.replaceChildren();
+  Object.keys(state.activities).sort().reverse().slice(0,5).forEach(date=>state.activities[date].forEach(type=>{
+    const row=document.createElement('div');row.className='history-row';const span=document.createElement('span');span.textContent=`${new Date(date+'T12:00:00').toLocaleDateString('es-ES')} · ${type==='walk'?'Paseo':'Bici'}`;const undo=document.createElement('button');undo.textContent='Quitar';undo.onclick=()=>{state.activities[date]=state.activities[date].filter(t=>t!==type);if(!state.activities[date].length)delete state.activities[date];persist();renderHome();};row.append(span,undo);activity.append(row);
+  }));
+  for(const [id,type] of [['logWalk','walk'],['logBike','bike']]) {const logged=state.activities[today]?.includes(type);$(id).disabled=logged;$(id).textContent=logged?(type==='walk'?'Paseo registrado ✓':'Bici registrada ✓'):(type==='walk'?'+ Paseo hoy':'+ Bici hoy');}
+}
+for(const [id,type] of [['logWalk','walk'],['logBike','bike']]) $(id).onclick=()=>{state.activities[today]??=[];if(!state.activities[today].includes(type))state.activities[today].push(type);persist();renderHome();};
+$('sessionDate').value=today;$('sessionDate').max=today;
+let current;
+function sessionKey(){return $('sessionDate').value;}
+function loadSession(){
+  const key=sessionKey();if(!/^\d{4}-\d{2}-\d{2}$/.test(key)||key>today){$('sessionDate').value=today;loadSession();$('sessionStatus').textContent='Selecciona una fecha válida, hasta hoy.';return;}
+  const previous=Object.keys(state.sessions).filter(d=>d<key).sort().reverse()[0];
+  current=structuredClone(state.sessions[key]||state.drafts[key]||{mode:'normal',exercises:Object.fromEntries(exercises.map(ex=>[ex.id,{kg:previous?state.sessions[previous].exercises[ex.id].kg:'',reps:'',done:false}]))});
+  renderExercises();
+}
+function saveDraft(){state.drafts[sessionKey()]=structuredClone(current);persist();updateComplete();}
+function updateComplete(){const done=exercises.every(ex=>current.exercises[ex.id].done);const existing=Boolean(state.sessions[sessionKey()]);$('completeSession').disabled=!done;$('completeSession').textContent=existing?'Actualizar sesión registrada':'Guardar sesión completada';$('sessionStatus').textContent=existing?'Esta fecha ya tiene una sesión. Guardar actualizará el registro, sin duplicarlo.':'';}
+function renderExercises(){
+  document.querySelectorAll('.modebtn').forEach(btn=>{const active=btn.dataset.mode===current.mode;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',active);});
+  $('modeDescription').textContent=current.mode==='short'?'5 minutos de calentamiento y 1 serie por máquina. Una visita breve también cuenta.':'5 minutos de cinta suave y 2 series por máquina. Descansa 60–90 segundos; deja 2–3 repeticiones en reserva.';
+  const root=$('exerciseList');root.replaceChildren();
+  exercises.forEach((ex,i)=>{
+    const item=current.exercises[ex.id];const card=document.createElement('article');card.className='ex-card';
+    card.innerHTML=`<div class="exercise-index">0${i+1} / 04</div><div class="ex-top"><span class="exname">${ex.name}</span><span class="sets">${current.mode==='short'?1:2} × 10–12</span></div><p class="exercise-tip">${ex.tip}</p><a class="video-link" href="https://www.youtube.com/results?search_query=${encodeURIComponent(ex.name+' técnica correcta') }" target="_blank" rel="noopener noreferrer">▶ Buscar técnica</a><div class="record-fields"><label class="field">Carga (kg)<input inputmode="decimal" type="number" min="0" max="999" step="0.5" data-field="kg" aria-label="Carga en kg: ${ex.name}" placeholder="Opcional"></label><label class="field">Reps de última serie<input inputmode="numeric" type="number" min="1" max="100" step="1" data-field="reps" aria-label="Repeticiones: ${ex.name}" placeholder="10–12"></label></div><label class="checkline"><input type="checkbox">Ejercicio terminado</label>`;
+    for(const field of ['kg','reps']){const input=card.querySelector(`[data-field="${field}"]`);input.value=item[field];input.oninput=()=>{if(input.validity.valid){item[field]=input.value;saveDraft();}};}
+    const check=card.querySelector('[type="checkbox"]');check.checked=item.done;check.onchange=()=>{item.done=check.checked;saveDraft();};root.append(card);
+  });updateComplete();
+}
+document.querySelectorAll('.modebtn').forEach(btn=>btn.onclick=()=>{if(!current)return;current.mode=btn.dataset.mode;saveDraft();renderExercises();});
+$('sessionDate').onchange=loadSession;
+$('completeSession').onclick=()=>{if(!current||!exercises.every(ex=>current.exercises[ex.id].done))return;state.sessions[sessionKey()]=structuredClone(current);delete state.drafts[sessionKey()];persist();renderHome();updateComplete();$('sessionStatus').textContent='Sesión guardada. Hecho por hoy ✓';};
+let timer=null,endTime=0;
+function stopTimer(){clearInterval(timer);timer=null;$('stopTimer').hidden=true;$('restTimer').disabled=false;}
+$('restTimer').onclick=()=>{stopTimer();endTime=Date.now()+75000;$('restTimer').disabled=true;$('stopTimer').hidden=false;const tick=()=>{const left=Math.max(0,Math.ceil((endTime-Date.now())/1000));$('timerStatus').textContent=left?`Descanso: ${left} s`:'Descanso terminado. Continúa cuando estés listo.';if(!left)stopTimer();};tick();timer=setInterval(tick,500);};
+$('stopTimer').onclick=()=>{stopTimer();$('timerStatus').textContent='Descanso detenido.';};
+function download(name,data,type){const url=URL.createObjectURL(new Blob([data],{type}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+$('downloadICS').onclick=()=>{const d=new Date();d.setHours(13,15,0,0);while(![1,5].includes(d.getDay())||d<new Date())d.setDate(d.getDate()+1);const date=localDate(d).replaceAll('-','');const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');download('mi-ritmo-entrenos.ics',['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mi Ritmo//Fuerza//ES','BEGIN:VEVENT','UID:mi-ritmo-fuerza-vallecas@mi-plan','DTSTAMP:'+stamp,'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Preparar mochila para fuerza','TRIGGER:-PT30M','END:VALARM','DTSTART;TZID=Europe/Madrid:'+date+'T131500','DTEND;TZID=Europe/Madrid:'+date+'T135000','RRULE:FREQ=WEEKLY;BYDAY=MO,FR','SUMMARY:Fuerza · Mi ritmo','LOCATION:VivaGym Vallecas','DESCRIPTION:5 minutos de calentamiento y cuatro máquinas. La sesión corta también cuenta.','END:VEVENT','END:VCALENDAR'].join('\r\n')+'\r\n','text/calendar;charset=utf-8');};
+$('exportData').onclick=()=>download('mi-ritmo-'+today+'.json',JSON.stringify({version:1,state,shopping:readStore('shopCheckV2',{})},null,2),'application/json');
+$('importData').onchange=async event=>{const file=event.target.files[0];if(!file)return;try{if(file.size>2000000)throw Error();const data=JSON.parse(await file.text());if(data.version!==1||!validState(data.state)||!data.shopping||typeof data.shopping!=='object'||Array.isArray(data.shopping)||Object.values(data.shopping).some(x=>typeof x!=='boolean'))throw Error();if(!confirm('¿Restaurar esta copia y sustituir el seguimiento y la compra de este navegador?'))return;state=data.state;state.steps??={};state.weights??={};state.menu??={};safeSave(STORAGE,state);safeSave('shopCheckV2',data.shopping);location.reload();}catch{$('dataStatus').textContent='No se pudo restaurar. Elige una copia válida de Mi ritmo.';}finally{event.target.value='';}};
 
-  // ---- Workout day toggle ----
-  document.querySelectorAll('.dtbtn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('.dtbtn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('dayA').style.display = btn.dataset.day==='a' ? 'block':'none';
-      document.getElementById('dayB').style.display = btn.dataset.day==='b' ? 'block':'none';
-    });
-  });
+function formatDate(date){return new Date(date+'T12:00:00').toLocaleDateString('es-ES',{day:'numeric',month:'short'});}
+function plotMetric(root,entries,type){
+  root.replaceChildren();
+  if(!entries.length){const empty=document.createElement('div');empty.className='empty-chart';empty.textContent=type==='steps'?'Tu actividad aparecerá aquí al guardar los primeros pasos.':'Empieza con tu peso actual. No hemos supuesto una cifra inicial.';root.append(empty);return;}
+  const ns='http://www.w3.org/2000/svg';const svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 360 160');svg.setAttribute('role','img');svg.setAttribute('aria-label',(type==='steps'?'Pasos':'Peso en kg')+' registrados: '+entries.map(([d,v])=>formatDate(d)+', '+v).join('; '));
+  const create=(tag,attrs)=>{const node=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,v));svg.append(node);return node;};
+  const values=entries.map(e=>e[1]);const low=type==='steps'?0:Math.min(...values)-.5;const high=Math.max(...values)+(type==='steps'?Math.max(100,Math.max(...values)*.1):.5);const time=d=>new Date(d+'T12:00:00').getTime();const first=time(entries[0][0]);const last=time(entries.at(-1)[0]);
+  const x=(date)=>entries.length===1?180:28+(time(date)-first)/(last-first)*304;const y=value=>122-(value-low)/(high-low||1)*100;
+  create('line',{x1:28,y1:122,x2:332,y2:122,stroke:'#dbe2d6'});
+  if(type==='steps') entries.forEach(([d,v])=>create('rect',{x:x(d)-Math.min(11,100/entries.length),y:y(v),width:Math.min(22,200/entries.length),height:Math.max(2,122-y(v)),rx:4,fill:'#709373'}));
+  else{create('polyline',{points:entries.map(([d,v])=>`${x(d)},${y(v)}`).join(' '),fill:'none',stroke:'#cf603d','stroke-width':3,'stroke-linejoin':'round'});entries.forEach(([d,v])=>create('circle',{cx:x(d),cy:y(v),r:4,fill:'#cf603d'}));}
+  const text=(str,attrs)=>{const t=create('text',attrs);t.textContent=str;};
+  text(formatDate(entries[0][0]),{x:28,y:150,fill:'#63716b','font-size':11});if(entries.length>1)text(formatDate(entries.at(-1)[0]),{x:332,y:150,fill:'#63716b','font-size':11,'text-anchor':'end'});
+  text(type==='steps'?Math.max(...values).toLocaleString('es-ES')+' pasos':Math.max(...values).toLocaleString('es-ES')+' kg',{x:28,y:14,fill:'#63716b','font-size':11});root.append(svg);
+}
+function renderMetrics(){
+  for(const [type,key] of [['steps','steps'],['weight','weights']]){
+    const entries=Object.entries(state[key]).sort((a,b)=>a[0].localeCompare(b[0]));const latest=entries.at(-1);const summary=$(type+'Summary');summary.replaceChildren();
+    if(latest){const strong=document.createElement('strong');strong.textContent=latest[1].toLocaleString('es-ES',type==='weight'?{minimumFractionDigits:1,maximumFractionDigits:1}:{})+(type==='weight'?' kg':' pasos');summary.append(strong,document.createTextNode('Último registro · '+formatDate(latest[0])));
+      if(type==='steps'){const start=weekStart();const weekEntries=entries.filter(([d])=>d>=localDate(start)&&d<=today);if(weekEntries.length){const p=document.createElement('p');p.textContent='Media de esta semana: '+Math.round(weekEntries.reduce((sum,e)=>sum+e[1],0)/weekEntries.length).toLocaleString('es-ES')+' pasos · '+weekEntries.length+' días registrados (no incluye días sin datos).';summary.append(p);}}
+      else {const lastDay=new Date(latest[0]+'T12:00:00');const start=new Date(lastDay);start.setDate(start.getDate()-6);const recent=entries.filter(([d])=>d>=localDate(start));const p=document.createElement('p');p.textContent='Media de los 7 días hasta el último registro: '+(recent.reduce((sum,e)=>sum+e[1],0)/recent.length).toLocaleString('es-ES',{minimumFractionDigits:1,maximumFractionDigits:1})+' kg · '+recent.length+' registros.';summary.append(p);}
+    }
+    plotMetric($(type+'Chart'),entries.slice(-14),type==='steps'?'steps':'weight');
+    const history=$(type+'History');history.replaceChildren();entries.slice(-5).reverse().forEach(([date,value])=>{const row=document.createElement('div');row.className='history-row';const label=document.createElement('span');label.textContent=formatDate(date)+' · '+value.toLocaleString('es-ES')+(type==='weight'?' kg':' pasos');const actions=document.createElement('span');const edit=document.createElement('button');edit.type='button';edit.textContent='Editar';edit.setAttribute('aria-label','Editar '+(type==='weight'?'peso':'pasos')+' del '+date);edit.onclick=()=>{$(type+'Date').value=date;$(type+'Value').value=value;$(type+'Value').focus();};const remove=document.createElement('button');remove.type='button';remove.textContent='Quitar';remove.setAttribute('aria-label','Quitar '+(type==='weight'?'peso':'pasos')+' del '+date);remove.onclick=()=>{if(!confirm('¿Quitar este registro?'))return;delete state[key][date];persist();renderMetrics();renderHome();if($(type+'Date').value===date)$(type+'Value').value='';};actions.append(edit,remove);row.append(label,actions);history.append(row);});
+  }
+}
+for(const [type,key,min,max] of [['steps','steps',0,200000],['weight','weights',20,400]]){
+  $(type+'Date').value=today;$(type+'Date').max=today;
+  $(type+'Date').onchange=()=>{$(type+'Value').value=state[key][$(type+'Date').value]??'';$(type+'Status').textContent='';};
+  $(type+'Value').value=state[key][today]??'';
+  $(type+'Form').onsubmit=event=>{event.preventDefault();const date=$(type+'Date').value;const raw=$(type+'Value').value;const value=Number(raw);if(!date||date>today||raw===''||!Number.isFinite(value)||value<min||value>max||(type==='steps'&&!Number.isInteger(value))){$(type+'Status').textContent='Revisa la fecha y la cifra antes de guardar.';return;}state[key][date]=value;persist();renderMetrics();renderHome();$(type+'Status').textContent=(type==='steps'?'Pasos guardados':'Peso guardado')+' · '+formatDate(date)+' ✓';};
+}
+$('calendarDownload').onclick=()=>{const panel=$('calendarOptions');panel.hidden=!panel.hidden;$('calendarDownload').setAttribute('aria-expanded',String(!panel.hidden));};
+const calendarStart=new Date();calendarStart.setHours(13,15,0,0);while(![1,5].includes(calendarStart.getDay())||calendarStart<new Date())calendarStart.setDate(calendarStart.getDate()+1);
+const calendarDate=localDate(calendarStart).replaceAll('-','');
+const calendarParams=new URLSearchParams({action:'TEMPLATE',text:'Fuerza · Mi ritmo',dates:calendarDate+'T131500/'+calendarDate+'T135000',ctz:'Europe/Madrid',recur:'RRULE:FREQ=WEEKLY;BYDAY=MO,FR',location:'VivaGym Vallecas',details:'5 minutos de calentamiento y cuatro máquinas. Sesión normal o corta, a tu ritmo.'});
+$('googleCalendar').href='https://calendar.google.com/calendar/render?'+calendarParams.toString();
 
-  // ---- Shopping list ----
-  const shopping = [
-    { group: "Carnicería / Pescadería", items: [
-      ["Lomo embutido (loncheado)", "1 paquete"],
-      ["Pechuga de pollo", "500g"],
-      ["Pavo (filetes)", "300g"],
-      ["Merluza / lenguado", "450g"],
-      ["Salmón", "130g"],
-      ["Jamón serrano (opcional)", "1 sobre"],
-    ]},
-    { group: "Huevos y lácteos", items: [
-      ["Huevos", "1 docena"],
-      ["Yogur natural", "1 pack grande (6-8 uds)"],
-      ["Proteína isolada (sabor neutro/vainilla)", "1 bote"],
-    ]},
-    { group: "Panadería / Cereales", items: [
-      ["Pan de espelta (rebanadas)", "1 paquete"],
-      ["Pan integral (rebanadas)", "1 paquete"],
-      ["Arroz", "1 paquete"],
-      ["Pasta integral", "1 paquete"],
-      ["Lentejas", "1 paquete"],
-      ["Granola", "1 paquete"],
-    ]},
-    { group: "Frutería / Verdulería", items: [
-      ["Tomate (para rallar)", "1 kg"],
-      ["Tomate triturado (bote/brik)", "1 unidad"],
-      ["Lechuga", "1 unidad"],
-      ["Zanahoria", "500g"],
-      ["Pimiento", "3-4 uds"],
-      ["Cebolla", "2-3 uds"],
-      ["Calabacín", "2 uds"],
-      ["Judía verde", "500g"],
-      ["Brócoli", "1 unidad"],
-      ["Patata", "1 kg"],
-      ["Mezcla congelada batata + patata + cebolla roja", "1 bolsa"],
-      ["Puerro", "2 uds"],
-      ["Plátano", "1 racimo"],
-      ["Fresas (o fruta de temporada)", "1 tarrina"],
-      ["Manzana / pera", "6-8 uds"],
-    ]},
-    { group: "Conservas / Despensa", items: [
-      ["Atún al natural (latas)", "2-3 latas"],
-      ["Aceite de oliva virgen extra", "1 botella"],
-      ["Nueces", "1 bolsa (200g)"],
-      ["Canela en polvo", "1 bote"],
-      ["Cacao puro en polvo (sin azúcar)", "1 bote"],
-      ["Sal (uso moderado)", "si falta"],
-    ]},
-  ];
+renderHome();loadSession();renderMetrics();
 
-  const shopListEl = document.getElementById('shopList');
-  let saved = {};
-  try { saved = JSON.parse(localStorage.getItem('shopCheck') || '{}'); } catch(e){ saved = {}; }
+const recipes = {"d0m0": {"title": "Bocadillo de lomo", "text": "Bocadillo de lomo: 2 rebanadas pan de espelta (90g) + lomo embutido (80g) + tomate rallado (50g) + 1 cda AOVE", "kind": "breakfast", "ingredients": [["Pan de espelta", 90, "g"], ["Lomo embutido", 80, "g"], ["Tomate", 50, "g"], ["AOVE", 10, "g"]], "url": ""}, "d0m1": {"title": "Arroz con pollo y verduras", "text": "Arroz con pollo y verduras: arroz crudo 90g + pechuga de pollo 150g + pimiento/cebolla/calabacín (150g) + 1 cda AOVE", "kind": "main", "ingredients": [["Arroz en crudo", 90, "g"], ["Pechuga de pollo", 150, "g"], ["Verduras variadas", 150, "g"], ["AOVE", 10, "g"]], "url": "https://www.youtube.com/results?search_query=receta%20arroz%20con%20pollo%20y%20verduras%20f%C3%A1cil"}, "d0m2": {"title": "Fruta (manzana o pera, 150g) + nueces 25g (pesadas sin cáscara)", "text": "Fruta (manzana o pera, 150g) + nueces 25g (pesadas sin cáscara)", "kind": "snack", "ingredients": [["Fruta", 150, "g"], ["Nueces sin cáscara", 25, "g"]], "url": ""}, "d0m3": {"title": "Merluza al horno 150g + patata cocida (250g) + ensalada (lechuga, tomate, zanahoria 150g) + 1 1/2 cda AOVE", "text": "Merluza al horno 150g + patata cocida (250g) + ensalada (lechuga, tomate, zanahoria 150g) + 1 1/2 cda AOVE", "kind": "main", "ingredients": [["Pescado blanco", 150, "g"], ["Patata", 250, "g"], ["Ensalada variada", 150, "g"], ["AOVE", 15, "g"]], "url": "https://www.youtube.com/results?search_query=receta%20merluza%20al%20horno%20f%C3%A1cil"}, "d1m0": {"title": "Tostadas de tomate y jamón", "text": "Pan integral con tomate: 2 rebanadas pan integral (80g) + tomate rallado (50g) + 1 cda AOVE + jamón serrano (30g)", "kind": "breakfast", "ingredients": [["Pan integral", 80, "g"], ["Tomate", 50, "g"], ["AOVE", 10, "g"], ["Jamón serrano", 30, "g"]], "url": ""}, "d1m1": {"title": "Fruta de oficina", "text": "1 pieza de fruta (de la oficina)", "kind": "snack", "ingredients": [], "url": ""}, "d1m2": {"title": "Comida de oficina", "text": "En la oficina — ver pauta general abajo ⬇️", "kind": "main", "ingredients": [], "url": ""}, "d1m3": {"title": "Fruta de oficina y nueces", "text": "1 pieza de fruta (de la oficina) + nueces 25g (llévalas de casa)", "kind": "snack", "ingredients": [["Nueces sin cáscara", 25, "g"]], "url": ""}, "d1m4": {"title": "Salmón 130g al horno + mezcla congelada de batata, patata y cebolla roja (250g) al horno + brócoli al vapor (150g) + 1 1/2 cda AOVE", "text": "Salmón 130g al horno + mezcla congelada de batata, patata y cebolla roja (250g) al horno + brócoli al vapor (150g) + 1 1/2 cda AOVE", "kind": "main", "ingredients": [["Salmón", 130, "g"], ["Mezcla congelada batata, patata y cebolla roja", 250, "g"], ["Brócoli", 150, "g"], ["AOVE", 15, "g"]], "url": "https://www.youtube.com/results?search_query=receta%20salm%C3%B3n%20al%20horno%20f%C3%A1cil"}, "d2m0": {"title": "Tostadas de tomate", "text": "Pan integral con tomate: 2 rebanadas pan integral (80g) + tomate rallado (50g) + 1 cda AOVE", "kind": "breakfast", "ingredients": [["Pan integral", 80, "g"], ["Tomate", 50, "g"], ["AOVE", 10, "g"]], "url": ""}, "d2m1": {"title": "Fruta de oficina", "text": "1 pieza de fruta (de la oficina)", "kind": "snack", "ingredients": [], "url": ""}, "d2m2": {"title": "Comida de oficina", "text": "En la oficina — ver pauta general abajo ⬇️", "kind": "main", "ingredients": [], "url": ""}, "d2m3": {"title": "Fruta de oficina y nueces", "text": "1 pieza de fruta (de la oficina) + nueces 25g (llévalas de casa)", "kind": "snack", "ingredients": [["Nueces sin cáscara", 25, "g"]], "url": ""}, "d2m4": {"title": "Tortilla francesa (2 huevos, 100g) + verduras salteadas (calabacín, judía verde, pimiento 150g) + pan (60g) + 1 cda AOVE", "text": "Tortilla francesa (2 huevos, 100g) + verduras salteadas (calabacín, judía verde, pimiento 150g) + pan (60g) + 1 cda AOVE", "kind": "main", "ingredients": [["Huevos", 2, "uds"], ["Verduras variadas", 150, "g"], ["Pan integral", 60, "g"], ["AOVE", 10, "g"]], "url": "https://www.youtube.com/results?search_query=receta%20tortilla%20francesa%20con%20verduras%20salteadas"}, "d3m0": {"title": "Tostadas de tomate", "text": "Pan integral con tomate: 2 rebanadas pan integral (80g) + tomate rallado (50g) + 1 cda AOVE", "kind": "breakfast", "ingredients": [["Pan integral", 80, "g"], ["Tomate", 50, "g"], ["AOVE", 10, "g"]], "url": ""}, "d3m1": {"title": "Fruta de oficina", "text": "1 pieza de fruta (de la oficina)", "kind": "snack", "ingredients": [], "url": ""}, "d3m2": {"title": "Comida de oficina", "text": "En la oficina — ver pauta general abajo ⬇️", "kind": "main", "ingredients": [], "url": ""}, "d3m3": {"title": "Fruta de oficina y nueces", "text": "1 pieza de fruta (de la oficina) + nueces 25g (llévalas de casa)", "kind": "snack", "ingredients": [["Nueces sin cáscara", 25, "g"]], "url": ""}, "d3m4": {"title": "Pechuga de pollo a la plancha 150g + ensalada (150g) + pan (60g) + 1 cda AOVE", "text": "Pechuga de pollo a la plancha 150g + ensalada (150g) + pan (60g) + 1 cda AOVE", "kind": "main", "ingredients": [["Pechuga de pollo", 150, "g"], ["Ensalada variada", 150, "g"], ["Pan integral", 60, "g"], ["AOVE", 10, "g"]], "url": ""}, "d4m0": {"title": "Yogur con granola y fruta", "text": "Bol de yogur: yogur natural (125g) + canela o cacao puro sin azúcar + granola (40g) + fruta (plátano/fresas 100g)", "kind": "breakfast", "ingredients": [["Yogur natural", 125, "g"], ["Granola", 40, "g"], ["Fruta", 100, "g"]], "url": ""}, "d4m1": {"title": "Lentejas con verduras", "text": "Lentejas con verduras: lentejas crudas 100g + zanahoria/puerro/pimiento (150g) + 1 cda AOVE", "kind": "main", "ingredients": [["Lentejas en seco", 100, "g"], ["Verduras variadas", 150, "g"], ["AOVE", 10, "g"]], "url": "https://www.youtube.com/results?search_query=receta%20lentejas%20con%20verduras%20f%C3%A1cil"}, "d4m2": {"title": "Fruta (150g) + nueces (25g)", "text": "Fruta (150g) + nueces (25g)", "kind": "snack", "ingredients": [["Fruta", 150, "g"], ["Nueces sin cáscara", 25, "g"]], "url": ""}, "d4m3": {"title": "Pescado blanco 150g (merluza/lenguado) + patata (250g) + verdura al vapor (150g) + 1 cda AOVE", "text": "Pescado blanco 150g (merluza/lenguado) + patata (250g) + verdura al vapor (150g) + 1 cda AOVE", "kind": "main", "ingredients": [["Pescado blanco", 150, "g"], ["Patata", 250, "g"], ["Verduras variadas", 150, "g"], ["AOVE", 10, "g"]], "url": ""}, "d5m0": {"title": "Bocadillo de lomo", "text": "Bocadillo de lomo: 2 rebanadas pan de espelta (90g) + lomo embutido (80g) + tomate (50g) + 1 cda AOVE", "kind": "breakfast", "ingredients": [["Pan de espelta", 90, "g"], ["Lomo embutido", 80, "g"], ["Tomate", 50, "g"], ["AOVE", 10, "g"]], "url": ""}, "d5m1": {"title": "Pasta integral con atún", "text": "Pasta integral con atún: pasta integral cruda 90g + atún al natural 1 lata (52g escurrido) + tomate triturado (100g) + 1 cda AOVE", "kind": "main", "ingredients": [["Pasta integral en crudo", 90, "g"], ["Atún al natural escurrido", 52, "g"], ["Tomate triturado", 100, "g"], ["AOVE", 10, "g"]], "url": "https://www.youtube.com/results?search_query=receta%20pasta%20con%20at%C3%BAn%20y%20tomate%20f%C3%A1cil"}, "d5m2": {"title": "Yogur natural (125g) + canela o cacao puro sin azúcar al gusto + fruta (150g)", "text": "Yogur natural (125g) + canela o cacao puro sin azúcar al gusto + fruta (150g)", "kind": "snack", "ingredients": [["Yogur natural", 125, "g"], ["Fruta", 150, "g"]], "url": ""}, "d5m3": {"title": "Pavo a la plancha 150g + pisto de verduras (calabacín, pimiento, cebolla, tomate 150g) + pan (60g) + 1 cda AOVE", "text": "Pavo a la plancha 150g + pisto de verduras (calabacín, pimiento, cebolla, tomate 150g) + pan (60g) + 1 cda AOVE", "kind": "main", "ingredients": [["Pavo", 150, "g"], ["Verduras para pisto", 150, "g"], ["Pan integral", 60, "g"], ["AOVE", 10, "g"]], "url": "https://www.youtube.com/results?search_query=receta%20pisto%20de%20verduras%20f%C3%A1cil"}, "d6m0": {"title": "Yogur con granola y fruta", "text": "Bol de yogur: yogur natural (125g) + canela o cacao puro sin azúcar + granola (40g) + fruta (100g)", "kind": "breakfast", "ingredients": [["Yogur natural", 125, "g"], ["Granola", 40, "g"], ["Fruta", 100, "g"]], "url": ""}, "d6m1": {"title": "Arroz con pavo", "text": "Arroz con pavo: arroz crudo 90g + pavo 150g + verduras variadas (150g) + 1 cda AOVE", "kind": "main", "ingredients": [["Arroz en crudo", 90, "g"], ["Pavo", 150, "g"], ["Verduras variadas", 150, "g"], ["AOVE", 10, "g"]], "url": ""}, "d6m2": {"title": "Fruta (150g) + nueces 15g", "text": "Fruta (150g) + nueces 15g", "kind": "snack", "ingredients": [["Fruta", 150, "g"], ["Nueces sin cáscara", 15, "g"]], "url": ""}, "d6m3": {"title": "Crema de verduras (250g de verdura variada) + tortilla francesa (2 huevos) + pan (40g) + 1 cda AOVE", "text": "Crema de verduras (250g de verdura variada) + tortilla francesa (2 huevos) + pan (40g) + 1 cda AOVE", "kind": "main", "ingredients": [["Verduras para crema", 250, "g"], ["Huevos", 2, "uds"], ["Pan integral", 40, "g"], ["AOVE", 10, "g"]], "url": "https://www.youtube.com/results?search_query=receta%20crema%20de%20verduras%20f%C3%A1cil"}, "b-tomate": {"title": "Tostadas de tomate", "text": "Pan integral (80 g), tomate (50 g) y AOVE (10 g).", "ingredients": [["Pan integral", 80, "g"], ["Tomate", 50, "g"], ["AOVE", 10, "g"]], "kind": "breakfast", "url": ""}, "b-yogur": {"title": "Yogur con granola y fruta", "text": "Yogur natural (125 g) con canela o cacao, granola (40 g) y fruta (100 g). Sin proteína añadida.", "ingredients": [["Yogur natural", 125, "g"], ["Granola", 40, "g"], ["Fruta", 100, "g"]], "kind": "breakfast", "url": ""}, "b-avena": {"title": "Bol de avena y yogur", "text": "Avena (40 g), yogur natural (125 g), fruta (100 g) y canela. Puedes dejarlo preparado la noche anterior.", "ingredients": [["Avena", 40, "g"], ["Yogur natural", 125, "g"], ["Fruta", 100, "g"]], "kind": "breakfast", "url": ""}, "b-queso": {"title": "Tostadas de queso fresco y tomate", "text": "Pan integral (80 g), queso fresco (60 g), tomate (50 g) y AOVE (5 g).", "ingredients": [["Pan integral", 80, "g"], ["Queso fresco", 60, "g"], ["Tomate", 50, "g"], ["AOVE", 5, "g"]], "kind": "breakfast", "url": ""}};
+const menuStructure = [[{"label": "Desayuno", "base": "d0m0", "kind": "breakfast"}, {"label": "Comida", "base": "d0m1", "kind": "main"}, {"label": "Merienda", "base": "d0m2", "kind": "snack"}, {"label": "Cena", "base": "d0m3", "kind": "main"}], [{"label": "Desayuno", "base": "d1m0", "kind": "breakfast"}, {"label": "Media mañana (oficina)", "base": "d1m1", "kind": "snack"}, {"label": "Comida", "base": "d1m2", "kind": "main"}, {"label": "Merienda (oficina)", "base": "d1m3", "kind": "snack"}, {"label": "Cena", "base": "d1m4", "kind": "main"}], [{"label": "Desayuno", "base": "d2m0", "kind": "breakfast"}, {"label": "Media mañana (oficina)", "base": "d2m1", "kind": "snack"}, {"label": "Comida", "base": "d2m2", "kind": "main"}, {"label": "Merienda (oficina)", "base": "d2m3", "kind": "snack"}, {"label": "Cena", "base": "d2m4", "kind": "main"}], [{"label": "Desayuno", "base": "d3m0", "kind": "breakfast"}, {"label": "Media mañana (oficina)", "base": "d3m1", "kind": "snack"}, {"label": "Comida", "base": "d3m2", "kind": "main"}, {"label": "Merienda (oficina)", "base": "d3m3", "kind": "snack"}, {"label": "Cena", "base": "d3m4", "kind": "main"}], [{"label": "Desayuno", "base": "d4m0", "kind": "breakfast"}, {"label": "Comida", "base": "d4m1", "kind": "main"}, {"label": "Merienda", "base": "d4m2", "kind": "snack"}, {"label": "Cena", "base": "d4m3", "kind": "main"}], [{"label": "Desayuno", "base": "d5m0", "kind": "breakfast"}, {"label": "Comida", "base": "d5m1", "kind": "main"}, {"label": "Merienda", "base": "d5m2", "kind": "snack"}, {"label": "Cena", "base": "d5m3", "kind": "main"}], [{"label": "Desayuno", "base": "d6m0", "kind": "breakfast"}, {"label": "Comida", "base": "d6m1", "kind": "main"}, {"label": "Merienda", "base": "d6m2", "kind": "snack"}, {"label": "Cena", "base": "d6m3", "kind": "main"}]];
 
-  shopping.forEach((grp, gi)=>{
-    const groupDiv = document.createElement('div');
-    groupDiv.className = 'shop-group';
-    const h3 = document.createElement('h3');
-    h3.textContent = grp.group;
-    groupDiv.appendChild(h3);
+const dayNames=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+let shopping=[];
+let saved=readStore('shopCheckV2',{});if(!saved||typeof saved!=='object'||Array.isArray(saved))saved={};
+function getChoice(day,meal){const key=`d${day}m${meal}`;const record=menuStructure[day][meal];const stored=state.menu[key];return stored&& (stored.recipe==='custom'||recipes[stored.recipe])?stored:{recipe:record.base,custom:'',groceries:'',kcal:''};}
+function menuOptions(kind,base){const options=[base];const titles=new Set([recipes[base].title]);for(const [id,r] of Object.entries(recipes)){if(r.kind===kind&&!titles.has(r.title)){options.push(id);titles.add(r.title);}}return options;}
+function saveMenuChoice(day,meal,choice){state.menu[`d${day}m${meal}`]=choice;persist();updateHomeMenu();updateDayTotal(day);renderShopping();}
+function updateHomeMenu(){const day=(new Date().getDay()+6)%7;const root=$('todayMeal');root.replaceChildren();for(const label of ['Desayuno','Comida','Cena']){const i=menuStructure[day].findIndex(m=>m.label===label);if(i<0)continue;const choice=getChoice(day,i);const el=document.createElement('span');el.className='home-menu-line';const strong=document.createElement('strong');strong.textContent=label;const text=document.createElement('span');text.textContent=choice.recipe==='custom'?(choice.custom||'Tu plato, pendiente de escribir'):recipes[choice.recipe].title;el.append(strong,text);root.append(el);}}
+function updateDayTotal(day){const values=menuStructure[day].map((_,i)=>getChoice(day,i).kcal);const entered=values.filter(v=>v!=='');const el=$('dayTotal'+day);if(el)el.textContent=entered.length?`${entered.reduce((sum,v)=>sum+Number(v),0).toLocaleString('es-ES')} kcal anotadas por ti · ${entered.length}/${values.length} comidas con dato${entered.length<values.length?' · total parcial':''}.`:'Sin calorías anotadas. Puedes usar el menú sin contarlas.';}
+function renderMenus(){
+ const root=$('dynamicMenu');const openDays=[...root.querySelectorAll('details[open]')].map(d=>Number(d.dataset.day));const initial=!root.children.length;root.replaceChildren();
+ menuStructure.forEach((meals,day)=>{
+  const details=document.createElement('details');details.className='day-card'+([1,2,3].includes(day)?' office':'');details.dataset.day=day;details.open=initial?day===(new Date().getDay()+6)%7:openDays.includes(day);
+  const summary=document.createElement('summary');summary.className='day-head';const name=document.createElement('span');name.className='name';name.textContent=dayNames[day];const badge=document.createElement('span');badge.className='badge'+([1,2,3].includes(day)?'':' home');badge.textContent=[1,2,3].includes(day)?'Oficina':'Casa';summary.append(name,badge);details.append(summary);
+  meals.forEach((meal,i)=>{
+   let choice=structuredClone(getChoice(day,i));const row=document.createElement('div');row.className='meal';const heading=document.createElement('div');heading.className='meal-heading';const label=document.createElement('label');label.className='label';label.textContent=meal.label;label.htmlFor=`menu-d${day}m${i}`;heading.append(label);row.append(heading);
+   const select=document.createElement('select');select.id=label.htmlFor;select.className='meal-picker';select.setAttribute('aria-label',`${meal.label} del ${dayNames[day]}`);[...new Set([...menuOptions(meal.kind,meal.base),...(choice.recipe==='custom'?[]:[choice.recipe])])].forEach(id=>{const option=document.createElement('option');option.value=id;option.textContent=recipes[id].title;select.append(option);});const own=document.createElement('option');own.value='custom';own.textContent='Escribir mi propio plato…';select.append(own);select.value=choice.recipe;
+   const content=document.createElement('div');content.className='content';const custom=document.createElement('div');custom.className='custom-fields';
+   const customLabel=document.createElement('label');customLabel.className='field';customLabel.textContent='¿Qué vas a comer?';const description=document.createElement('textarea');description.maxLength=1200;description.placeholder='Ej. bocadillo de lomo con tomate, pan 80 g…';description.value=choice.custom;customLabel.append(description);
+   const groceriesLabel=document.createElement('label');groceriesLabel.className='field';groceriesLabel.textContent='Ingredientes para comprar (uno por línea)';const groceries=document.createElement('textarea');groceries.maxLength=1200;groceries.placeholder='Pan integral 80 g\nTomate 50 g';groceries.value=choice.groceries;groceriesLabel.append(groceries);custom.append(customLabel,groceriesLabel);
+   const calories=document.createElement('label');calories.className='calorie-note';calories.textContent='Calorías anotadas por ti (opcional)';const kcal=document.createElement('input');kcal.type='number';kcal.min='0';kcal.max='10000';kcal.step='1';kcal.inputMode='numeric';kcal.placeholder='kcal';kcal.value=choice.kcal;kcal.setAttribute('aria-label',`Calorías de ${meal.label.toLowerCase()} del ${dayNames[day]}`);calories.append(kcal);
+   function show(){content.replaceChildren();custom.hidden=choice.recipe!=='custom';if(choice.recipe!=='custom'){const recipe=recipes[choice.recipe];const text=document.createElement('span');text.textContent=recipe.text;content.append(text);if(recipe.url){const a=document.createElement('a');a.className='video-link';a.textContent='▶ Buscar receta';a.href=recipe.url;a.target='_blank';a.rel='noopener noreferrer';content.append(document.createElement('br'),a);}}}
+   select.onchange=()=>{choice.recipe=select.value;choice.kcal='';kcal.value='';saveMenuChoice(day,i,choice);show();};description.oninput=()=>{choice.custom=description.value;saveMenuChoice(day,i,choice);};groceries.oninput=()=>{choice.groceries=groceries.value;saveMenuChoice(day,i,choice);};kcal.oninput=()=>{if(kcal.validity.valid){choice.kcal=kcal.value;saveMenuChoice(day,i,choice);}};
+   row.append(select,content,custom,calories);show();details.append(row);
+  });const total=document.createElement('div');total.className='day-total';total.id='dayTotal'+day;details.append(total);root.append(details);updateDayTotal(day);
+ });updateHomeMenu();
+}
+function buildShopping(){
+ const amounts=new Map();const custom=[];
+ menuStructure.forEach((meals,day)=>meals.forEach((meal,i)=>{const choice=getChoice(day,i);if(choice.recipe==='custom'){const lines=choice.groceries.split('\n').map(s=>s.trim()).filter(Boolean);for(const line of lines)custom.push([line,`${dayNames[day]} · ${meal.label}`]);return;}for(const [name,qty,unit] of recipes[choice.recipe].ingredients){const key=name+'|'+unit;const prev=amounts.get(key);amounts.set(key,{name,qty:qty+(prev?.qty||0),unit});}}));
+ const groups={fresh:[],dairy:[],pantry:[],vegetables:[]};
+ for(const {name,qty,unit} of amounts.values()){const group=/pollo|pavo|lomo|serrano|pescado|salmón/i.test(name)?'fresh':/yogur|queso|huevo/i.test(name)?'dairy':/pan|arroz|pasta|lentejas|atún|aove|nueces|granola|avena/i.test(name)?'pantry':'vegetables';groups[group].push([name,`${qty.toLocaleString('es-ES')} ${unit}`]);}
+ const output=[{group:'Carnicería y pescadería',items:groups.fresh},{group:'Huevos y lácteos',items:groups.dairy},{group:'Panadería y despensa',items:groups.pantry},{group:'Fruta, verduras y congelados',items:groups.vegetables}].filter(g=>g.items.length);
+ if(custom.length)output.push({group:'Tus platos · ingredientes escritos por ti',items:custom});
+ return output;
+}
+function updateShopProgress(){const all=shopping.flatMap(g=>g.items);const count=all.filter(item=>saved['item-'+encodeURIComponent(item[0])]).length;$('shopProgress').textContent=`${count} de ${all.length} productos listos · cantidades de la semana tipo, antes de descontar tu despensa.`;}
+function renderShopping(){shopping=buildShopping();const root=$('shopList');root.replaceChildren();shopping.forEach((group,gi)=>{const section=document.createElement('div');section.className='shop-group';const title=document.createElement('h3');title.textContent=group.group;section.append(title);group.items.forEach((item,ii)=>{const id='item-'+encodeURIComponent(item[0]);const domId=`shop-${gi}-${ii}`;const row=document.createElement('div');row.className='shop-item'+(saved[id]?' checked':'');const cb=document.createElement('input');cb.type='checkbox';cb.id=domId;cb.checked=Boolean(saved[id]);const label=document.createElement('label');label.htmlFor=domId;label.textContent=item[0];const qty=document.createElement('span');qty.className='qty';qty.textContent=item[1];cb.onchange=()=>{saved[id]=cb.checked;row.classList.toggle('checked',cb.checked);safeSave('shopCheckV2',saved);updateShopProgress();};row.append(cb,label,qty);section.append(row);});root.append(section);});const missing=[];menuStructure.forEach((meals,d)=>meals.forEach((m,i)=>{const choice=getChoice(d,i);if(choice.recipe==='custom'&&!choice.groceries.trim())missing.push(dayNames[d]+' · '+m.label);}));if(missing.length){const note=document.createElement('p');note.className='note';note.textContent='Faltan ingredientes de platos propios: '+missing.join(', ')+'. Añádelos en Menú para completar la compra.';root.prepend(note);}updateShopProgress();}
+const breakfastOptions=menuOptions('breakfast','d0m0');for(const id of breakfastOptions){const option=document.createElement('option');option.value=id;option.textContent=recipes[id].title;$('allBreakfast').append(option);}
+function updateBreakfastAction(){const selected=[...document.querySelectorAll('#breakfastDays input:checked')];const ready=Boolean($('allBreakfast').value&&selected.length);$('applyBreakfast').disabled=!ready;$('applyBreakfast').textContent=ready?'Aplicar a '+selected.length+(selected.length===1?' día':' días'):'Elige desayuno y días';}
+dayNames.forEach((name,day)=>{const label=document.createElement('label');const input=document.createElement('input');input.type='checkbox';input.value=day;input.setAttribute('aria-label',name);input.onchange=updateBreakfastAction;const span=document.createElement('span');span.textContent=['L','M','X','J','V','S','D'][day];label.append(input,span);$('breakfastDays').append(label);});
+$('allBreakfast').onchange=updateBreakfastAction;
+$('applyBreakfast').onclick=()=>{const id=$('allBreakfast').value;const selected=[...document.querySelectorAll('#breakfastDays input:checked')].map(cb=>Number(cb.value));if(!id||!selected.length)return;selected.forEach(day=>{const i=menuStructure[day].findIndex(m=>m.kind==='breakfast');state.menu[`d${day}m${i}`]={recipe:id,custom:'',groceries:'',kcal:''};});persist();renderMenus();renderShopping();$('menuStatus').textContent='Desayuno actualizado: '+selected.map(day=>dayNames[day].toLowerCase()).join(', ')+'.';$('breakfastTools').open=false;};
+$('resetMenu').onclick=()=>{if(!confirm('¿Recuperar los platos iniciales y borrar las calorías anotadas en esta semana tipo?'))return;state.menu={};persist();renderMenus();renderShopping();$('menuStatus').textContent='Menú inicial recuperado.';};
+$('resetShop').onclick=()=>{if(!confirm('¿Desmarcar toda la lista de compra?'))return;saved={};safeSave('shopCheckV2',{});renderShopping();};
+renderMenus();renderShopping();
 
-    grp.items.forEach((item, ii)=>{
-      const id = 'g'+gi+'i'+ii;
-      const row = document.createElement('div');
-      row.className = 'shop-item' + (saved[id] ? ' checked' : '');
-      row.innerHTML = `
-        <input type="checkbox" id="${id}" ${saved[id] ? 'checked' : ''}>
-        <label for="${id}">${item[0]}</label>
-        <span class="qty">${item[1]}</span>
-      `;
-      const cb = row.querySelector('input');
-      cb.addEventListener('change', ()=>{
-        saved[id] = cb.checked;
-        row.classList.toggle('checked', cb.checked);
-        localStorage.setItem('shopCheck', JSON.stringify(saved));
-      });
-      groupDiv.appendChild(row);
-    });
-
-    shopListEl.appendChild(groupDiv);
-  });
-
-  document.getElementById('resetShop').addEventListener('click', ()=>{
-    saved = {};
-    localStorage.setItem('shopCheck', '{}');
-    document.querySelectorAll('.shop-item input').forEach(cb=>{
-      cb.checked = false;
-      cb.closest('.shop-item').classList.remove('checked');
-    });
-  });
 </script>
 
 </body>
