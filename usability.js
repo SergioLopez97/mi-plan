@@ -3,26 +3,49 @@ const routeNames=Object.fromEntries(sections);
 const routeFromHash=()=>{const id=location.hash.slice(1);return Object.hasOwn(routeNames,id)?id:'hoy';};
 let activeRoute=document.querySelector('main>.tab.active')?.id||'hoy';
 const routePositions={};
-const appBack=html('button','app-back','←');appBack.type='button';appBack.setAttribute('aria-label','Volver');document.querySelector('header').prepend(appBack);
 const originalHeaderCaption=document.querySelector('header p');
 const routeAnnouncement=html('div','sr-only');routeAnnouncement.setAttribute('role','status');routeAnnouncement.setAttribute('aria-live','polite');document.body.append(routeAnnouncement);
 try{history.scrollRestoration='manual';}catch{}
-const initialRoute=routeFromHash();history.replaceState({miRitmo:true,route:initialRoute,depth:0},'',location.pathname+location.search+'#'+initialRoute);
+const initialRoute=routeFromHash();const savedNavState=history.state?.miRitmo?history.state:{};
+history.replaceState({...savedNavState,miRitmo:true,route:initialRoute},'',location.pathname+location.search+'#'+initialRoute);
+function navigationContext(id){
+ const context={scroll:window.scrollY};
+ if(id==='menu'||id==='compra'){context.week=menuWeek;context.day=menuDay;}
+ if(id==='alimentacion')context.date=$('foodDate').value;
+ if(id==='entreno')context.date=$('sessionDate').value;
+ if(id==='hoy')context.weekOffset=viewWeekOffset;
+ if(id==='progreso'){context.range=$('progressRange').value;context.measure=$('measureSelect').value;context.exercise=$('strengthExercise').value;}
+ return context;
+}
+function restoreNavigationContext(id,context){
+ if(!context||typeof context!=='object')return;
+ if((id==='menu'||id==='compra')&&isoDate(context.week)){menuWeek=monday(context.week);state.weekMenus[menuWeek]??={};state.menu=state.weekMenus[menuWeek];if(Number.isInteger(context.day)&&context.day>=0&&context.day<7)menuDay=context.day;renderMenus();renderShopping();}
+ if(id==='alimentacion'&&isoDate(context.date)&&context.date<=today&&!foodDraft.length){$('foodDate').value=context.date;editorDate=context.date;renderFoodDiary();}
+ if(id==='entreno'&&isoDate(context.date)&&context.date<=today){$('sessionDate').value=context.date;loadSession();}
+ if(id==='hoy'&&Number.isInteger(context.weekOffset)&&context.weekOffset<=0){viewWeekOffset=context.weekOffset;renderHome();}
+ if(id==='progreso'){for(const [key,id] of [['range','progressRange'],['measure','measureSelect'],['exercise','strengthExercise']])if([...$(id).options].some(o=>o.value===context[key]))$(id).value=context[key];renderMetrics();}
+}
 function activateRoute(id,{push=true,top=false}={}){
  if(!Object.hasOwn(routeNames,id))return;
  const previous=activeRoute;if(previous!==id)routePositions[previous]=window.scrollY;
+ const restoredContext=!push?history.state?.context:null;
+ if(push&&previous!==id)history.replaceState({...history.state,context:navigationContext(previous)},'',location.href);
  if(push&&previous!==id)history.pushState({miRitmo:true,route:id,depth:(history.state?.depth||0)+1},'',location.pathname+location.search+'#'+id);
  activeRoute=id;
+ if(restoredContext)restoreNavigationContext(id,restoredContext);
  document.querySelectorAll('main>.tab').forEach(section=>{const active=section.id===id;section.classList.toggle('active',active);section.hidden=!active;});
  document.querySelectorAll('[data-route],#appMenu [data-section]').forEach(btn=>{const active=(btn.dataset.route||btn.dataset.section)===id;btn.classList.toggle('active',active);if(active)btn.setAttribute('aria-current','page');else btn.removeAttribute('aria-current');});
- appBack.hidden=id==='hoy'&&!(history.state?.depth>0);originalHeaderCaption.textContent='Un poco cada día. A tu manera.';routeAnnouncement.textContent=routeNames[id];document.title=routeNames[id]+' · OwnPace';
- if(drawer.open)drawer.close();
- const position=top?0:(previous!==id?routePositions[id]||0:window.scrollY);requestAnimationFrame(()=>window.scrollTo({top:position,behavior:'instant'}));
+ originalHeaderCaption.textContent='Un poco cada día. A tu manera.';routeAnnouncement.textContent=routeNames[id];document.title=routeNames[id]+' · OwnPace';
+ document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
+ const position=top?0:(restoredContext&&Number.isFinite(restoredContext.scroll)?restoredContext.scroll:(previous!==id?routePositions[id]||0:window.scrollY));requestAnimationFrame(()=>window.scrollTo({top:position,behavior:'instant'}));
 }
 openTab=(id)=>activateRoute(id);
 window.addEventListener('popstate',()=>activateRoute(routeFromHash(),{push:false}));
 window.addEventListener('hashchange',()=>{if(routeFromHash()!==activeRoute)activateRoute(routeFromHash(),{push:false});});
-appBack.onclick=()=>{if(activeRoute==='alimentacion'&&foodComposer.open){foodComposer.open=false;$('foodDayTitle').scrollIntoView({block:'start'});return;}if(history.state?.depth>0)history.back();else openTab('hoy');};
+function saveNavigationSnapshot(){try{history.replaceState({...history.state,context:navigationContext(activeRoute)},'',location.href);}catch{}}
+window.addEventListener('pagehide',saveNavigationSnapshot);
+window.addEventListener('beforeunload',saveNavigationSnapshot);
+
 // Desktop sidebar and the header menu on mobile; no bottom navigation.
 const desktopNavigation=html('aside','desktop-navigation');desktopNavigation.setAttribute('aria-label','Navegación principal');desktopNavigation.innerHTML='<a class="desktop-brand" href="#hoy">OwnPace<span>Tu espacio personal</span></a>';const desktopRoutes=html('nav','desktop-routes');sections.forEach(([id,label])=>{const button=html('button','',label);button.type='button';button.dataset.route=id;button.onclick=()=>openTab(id);desktopRoutes.append(button);});desktopNavigation.append(desktopRoutes);document.body.append(desktopNavigation);
 // Diary first; the editor is a deliberate step, not an always-open form.
@@ -93,3 +116,56 @@ const oldMetrics=renderMetrics;renderMetrics=()=>{oldMetrics();if($('dashboardMe
 // Refresh the active screen without losing the route, selected dates, or unsaved food draft.
 for(const paragraph of document.querySelectorAll('#hoy p.small'))if(paragraph.textContent.startsWith('Toca un día pasado'))paragraph.textContent='Toca un día para ver su sesión. Las sesiones parciales también muestran ✓; los borradores no cuentan como visita.';
 loadSession();renderMenus();renderFoodRows();renderFoodDiary();renderHome();renderMetrics();activateRoute(activeRoute,{push:false});
+
+// Simple menu: see the dish, record it once, or enter another meal.
+let lastQuickMeal=null;
+const detailedMenuRenderer=renderMenus;
+renderMenus=()=>{detailedMenuRenderer();document.querySelectorAll('#dynamicMenu>.day-card').forEach((card,day)=>{const date=plusDays(menuWeek,day);card.querySelectorAll('.meal').forEach((row,index)=>{const moment=slotMoment(menuStructure[day][index].label);const entries=logsFor(date,moment);const existingButton=row.querySelector('.meal-log-button');const editor=row.querySelector('.meal-editor');if(editor)editor.querySelector('summary').textContent='Cambiar plato';
+ if(!entries.length){const content=row.querySelector('.content');const ingredients=html('details','menu-ingredients');ingredients.append(html('summary','','Ver ración y receta'));content.before(ingredients);ingredients.append(content);const choice=getChoice(day,index);const computed=choice.recipe==='custom'?{items:[],missing:['Plato propio']}:recipeItems(choice.recipe);if(!computed.missing.length){existingButton.textContent=date>today?'Registrarás esta comida ese día':'He comido esto';existingButton.disabled=date>today;existingButton.onclick=()=>{if(date>today||logsFor(date,moment).length)return;const entry={id:uid(),label:recipes[getChoice(day,index).recipe].title,moment,items:structuredClone(recipeItems(getChoice(day,index).recipe).items)};state.foodLog[date]??=[];state.foodLog[date].push(entry);lastQuickMeal={date,id:entry.id};persist();renderMenus();renderFoodDiary();renderHome();};}
+ const other=html('button','text-button menu-other','He comido otra cosa');other.type='button';other.disabled=date>today;other.onclick=()=>beginFood(moment,date);existingButton.after(other);
+ }else if(lastQuickMeal?.date===date&&entries.some(entry=>entry.id===lastQuickMeal.id)){const undo=html('button','text-button','Deshacer registro');undo.type='button';undo.onclick=()=>{state.foodLog[date]=state.foodLog[date].filter(entry=>entry.id!==lastQuickMeal.id);lastQuickMeal=null;persist();renderMenus();renderFoodDiary();renderHome();};existingButton.after(undo);}
+ });});};
+$('menu').querySelector('.section-heading').textContent='Tu menú';$('menu').querySelector('.muted').textContent='Elige un día. Registra el plato previsto o añade lo que realmente comiste.';
+const menuOptionsPanel=html('details','menu-toolbar secondary-menu-options');menuOptionsPanel.append(html('summary','','Organizar la semana'));for(const element of [document.querySelector('.menu-guidance'),document.querySelector('.menu-intro'),$('breakfastTools'),$('menu').querySelector('.week-actions')])if(element)menuOptionsPanel.append(element);$('dynamicMenu').after(menuOptionsPanel);
+const purchaseLink=html('button','text-button menu-purchase-link','Ver lista de compra →');purchaseLink.onclick=()=>openTab('compra');$('menuDayNav').after(purchaseLink);
+renderMenus();activateRoute(activeRoute,{push:false});
+
+// Keep secondary information out of the daily menu flow.
+const resetOptions=$('menu').querySelector('.menu-reset');if(resetOptions){for(const child of [...resetOptions.children])if(child.tagName!=='SUMMARY')menuOptionsPanel.append(child);resetOptions.remove();}
+const photoHelp=[...$('menu').querySelectorAll('details.note')].find(d=>d.querySelector('summary')?.textContent.includes('foto'));if(photoHelp)menuOptionsPanel.append(photoHelp);
+const officeHelp=[...$('menu').querySelectorAll('.note')].find(note=>note.querySelector('b')?.textContent.startsWith('Pauta para comida de oficina'));if(officeHelp){const info=html('details','note');info.append(html('summary','','Ideas para la comida de oficina'));info.append(officeHelp);menuOptionsPanel.append(info);}
+// Choose another dish from the diet without rewriting the plan or its ingredients.
+const dietPicker=html('dialog','sport-dialog diet-picker');dietPicker.id='dietMealPicker';dietPicker.setAttribute('aria-labelledby','dietPickerTitle');dietPicker.innerHTML='<div class="sport-dialog-head"><h2 id="dietPickerTitle">¿Qué has comido?</h2><button type="button" class="drawer-close" id="closeDietPicker" aria-label="Cerrar platos de la dieta">×</button></div><p class="small" id="dietPickerContext"></p><label class="field">Buscar en tus platos<input id="dietDishSearch" type="search" placeholder="Ej. arroz, lomo, yogur" autocomplete="off"></label><div id="dietDishList" class="diet-dish-list"></div><button type="button" id="dietManualFood" class="secondary">No está aquí: añadir alimentos</button><p class="small">Se abrirá la ración del plato para que la revises antes de guardarla. El menú planificado no cambia.</p>';
+document.body.append(dietPicker);
+let pickerMoment='Comida',pickerDate=today;
+const dietDishes=[...new Map(Object.entries(recipes).map(([id,recipe])=>[recipe.title,{id,...recipe}])).values()];
+function showDietDishes(){const term=norm($('dietDishSearch').value);const root=$('dietDishList');root.replaceChildren();const matches=dietDishes.filter(recipe=>!term||norm(recipe.title+' '+recipe.text).includes(term));if(!matches.length)root.append(html('p','small','No hay coincidencias. Puedes añadir los alimentos manualmente.'));const preferred=pickerMoment==='Desayuno'?'breakfast':['Comida','Cena'].includes(pickerMoment)?'main':'snack';for(const kind of [preferred,...['breakfast','main','snack'].filter(kind=>kind!==preferred)]){const group=matches.filter(recipe=>recipe.kind===kind);if(!group.length)continue;root.append(html('h3','diet-group-title',kind==='breakfast'?'Desayunos':kind==='main'?'Comidas y cenas':'Entre horas'));group.forEach(recipe=>{const button=html('button','diet-dish');button.type='button';const computed=recipeItems(recipe.id);button.append(html('strong','',recipe.title),html('span','small',computed.missing.length?'Sin cantidades completas · podrás añadirlas':'≈ '+roundedKcal(kcalOf(computed.items))+' kcal · ración orientativa'));button.onclick=()=>{if(!chooseDiaryDate(pickerDate))return;if(foodDraft.length&&!discardForReplacement())return;foodDraft=structuredClone(computed.items);editingFood=null;$('foodLabel').value=recipe.title;$('foodMoment').value=pickerMoment;$('cancelFoodEdit').hidden=true;dietPicker.close();foodComposer.open=true;renderFoodRows();renderFoodDiary();$('foodStatus').textContent='Plato de tu dieta, todavía sin guardar. Revisa la ración que realmente has comido.';openTab('alimentacion');requestAnimationFrame(()=>foodComposer.scrollIntoView({block:'start'}));};root.append(button);});}}
+function openDietPicker(moment,date){if(!isoDate(date)||date>today)return;pickerMoment=moment;pickerDate=date;$('dietPickerContext').textContent=moment+' · '+prettyDate(date);$('dietDishSearch').value='';showDietDishes();dietPicker.showModal();}
+$('closeDietPicker').onclick=()=>dietPicker.close();$('dietDishSearch').oninput=showDietDishes;$('dietManualFood').onclick=()=>{dietPicker.close();beginFood(pickerMoment,pickerDate);};
+const menuWithDietChoices=renderMenus;renderMenus=()=>{menuWithDietChoices();document.querySelectorAll('#dynamicMenu>.day-card').forEach((card,day)=>card.querySelectorAll('.meal').forEach((row,index)=>{const button=row.querySelector('.menu-other');if(button)button.onclick=()=>openDietPicker(slotMoment(menuStructure[day][index].label),plusDays(menuWeek,day));}));};
+const chooseDishButton=html('button','secondary','Elegir plato de mi dieta');chooseDishButton.type='button';chooseDishButton.onclick=()=>openDietPicker($('foodMoment').value,$('foodDate').value);$('foodRows').before(chooseDishButton);renderMenus();
+/* Short preparation guides use only the ingredients already present in the plan. */
+function preparationGuide(recipe){
+ const names=recipe.ingredients.map(([name])=>name);const has=name=>names.includes(name);
+ if(!names.length)return {time:'Según el plato',steps:['Este plato no tiene ingredientes ni cantidades definidos.','Si es comida de oficina, registra los alimentos que realmente te sirvan; no hay una receta fija que podamos dar por conocida.']};
+ if(has('Arroz en crudo'))return {time:'25–35 min aprox.',steps:['Lava y corta las verduras. Pesa el arroz en crudo y la carne con las cantidades del plato.','Usa el aceite indicado para saltear las verduras y la carne en trozos. No añadas otra cucharada sin contarla.','Añade el arroz y el agua que indique su envase. Cocina a fuego suave el tiempo recomendado, añadiendo agua si hace falta.','Comprueba que la carne esté completamente cocinada en el centro antes de servir.']};
+ if(has('Lentejas en seco'))return {time:'35–50 min aprox.',steps:['Aclara las lentejas. Lava y corta la zanahoria, el puerro y el pimiento.','Rehoga las verduras con el aceite de la ración. Añade las lentejas y agua suficiente para cubrirlas holgadamente.','Cuece a fuego suave el tiempo que indique el envase, hasta que estén tiernas. Remueve de vez en cuando y repón agua si lo necesitan.','Ajusta las especias a tu gusto. No hace falta añadir chorizo, embutidos ni más aceite para esta receta.']};
+ if(has('Pasta integral en crudo'))return {time:'15–20 min aprox.',steps:['Cuece la pasta según el envase y escúrrela. El peso del menú corresponde a pasta seca.','Calienta el tomate triturado en una sartén con el aceite indicado.','Añade el atún escurrido y mezcla con la pasta. Usa especias para darle sabor.']};
+ if(has('Salmón'))return {time:'25–35 min aprox.',steps:['Precalienta el horno a unos 190 °C. Coloca la mezcla de batata, patata y cebolla en una bandeja, repartiendo el aceite de la ración.','Hornea la guarnición siguiendo el envase; añade el salmón cuando le queden unos 12–15 minutos. El tiempo real depende del grosor y de si está congelado.','Haz el brócoli al vapor o en el microondas siguiendo su envase. Comprueba la cocción del pescado antes de servir.']};
+ if(has('Pescado blanco'))return {time:'25–40 min aprox.',steps:['Lava y corta la patata en trozos pequeños. Cuécela hasta que esté tierna o empieza a hacerla al horno antes que el pescado.','Cocina el pescado al horno, a la plancha o en air fryer siguiendo las indicaciones de su envase y del aparato. Reparte el aceite indicado entre los ingredientes.','Prepara la ensalada o las verduras del acompañamiento. Comprueba que el pescado esté bien cocinado; el tiempo depende de su grosor.']};
+ if(has('Verduras para crema'))return {time:'25–30 min aprox.',steps:['Lava, pela si hace falta y trocea las verduras. Cuécelas con agua suficiente hasta que estén blandas.','Tritura y ajusta la textura con parte del agua de cocción. No necesitas nata para esta versión.','Prepara la tortilla con los huevos indicados. Reparte el aceite de la ración y acompaña con el pan previsto.']};
+ if(has('Huevos'))return {time:'15–20 min aprox.',steps:['Corta las verduras. Si usas judía verde, cuécela antes hasta que esté tierna o sigue el envase si es congelada.','Saltea las verduras con parte del aceite indicado. Bate los huevos y cuaja la tortilla en una sartén con el resto.','Sirve con el pan de la ración. No hace falta añadir más aceite al terminar.']};
+ if(has('Verduras para pisto'))return {time:'25–30 min aprox.',steps:['Corta calabacín, pimiento y cebolla. Cocínalos a fuego suave con el aceite de la ración; añade el tomate y remueve hasta que estén tiernos.','Haz el pavo a la plancha y comprueba que quede completamente cocinado en el centro.','Sirve el pavo con el pisto y el pan indicado. Si utilizas pisto preparado, revisa el aceite y la etiqueta del producto.']};
+ if(has('Pechuga de pollo'))return {time:'15–20 min aprox.',steps:['Prepara la ensalada y pesa la ración de pan.','Cocina el pollo a la plancha con parte del aceite indicado hasta que esté completamente hecho en el centro.','Usa el resto del aceite para la ensalada. El aceite del aliño también cuenta dentro de la ración.']};
+ if(has('Lomo embutido'))return {time:'5 min aprox.',steps:['Pesa el pan y el lomo, ya que el tamaño de las lonchas varía.','Lava y ralla o corta el tomate. Reparte el aceite indicado sobre el pan.','Monta el bocadillo. El lomo de esta opción es embutido: no necesita cocinarse como un filete fresco.']};
+ if(has('Avena'))return {time:'5 min · reposo opcional',steps:['Mezcla la avena con el yogur y la fruta cortada. Añade canela si te gusta.','Puedes comerlo al momento o dejarlo tapado en la nevera para el desayuno siguiente.','Si añades leche, frutos secos u otros ingredientes, añádelos también al registro de la comida.']};
+ if(has('Granola')||has('Yogur natural'))return {time:'3–5 min aprox.',steps:['Pon el yogur en un bol y añade la fruta cortada.','Añade la granola si forma parte del plato. Pésala: un puñado puede variar mucho.','Utiliza canela o cacao si te apetece. Si añades otros ingredientes, inclúyelos en el registro.']};
+ if(has('Pan integral'))return {time:'5 min aprox.',steps:['Tuesta el pan si te gusta y prepara el tomate.','Añade el queso fresco o el jamón solo si aparecen entre los ingredientes de esta opción.','Reparte el aceite de la ración. Sirve sin añadir más ingredientes que no hayas contado.']};
+ return {time:'3–5 min aprox.',steps:['Prepara la fruta y pesa la ración comestible.','Si el plato incluye nueces, pésalas sin cáscara. No hace falta cocinarlo.']};
+}
+function guideBlock(recipe){const guide=preparationGuide(recipe);const block=html('div','recipe-guide');block.append(html('h4','','Cómo prepararlo'),html('p','small',guide.time+' · tiempo orientativo'));const list=document.createElement('ol');guide.steps.forEach(step=>list.append(html('li','',step)));block.append(list);return block;}
+const menuBeforeGuides=renderMenus;renderMenus=()=>{menuBeforeGuides();document.querySelectorAll('#dynamicMenu>.day-card').forEach((card,day)=>card.querySelectorAll('.meal').forEach((row,index)=>{const choice=getChoice(day,index);if(choice.recipe==='custom')return;const recipe=recipes[choice.recipe];const ingredients=row.querySelector('.menu-ingredients');if(ingredients){ingredients.querySelector(':scope>summary').textContent='Ingredientes y cómo prepararlo';ingredients.append(guideBlock(recipe));}else{const reference=row.querySelector('.planned-reference');if(reference)reference.append(guideBlock(recipe));}
+ const editor=row.querySelector('.meal-edit-body');if(!editor)return;const suggestions=html('div','meal-suggestions');suggestions.append(html('p','small','Otras ideas de tu dieta. Cambian la planificación y la compra; no son equivalencias nutricionales.'));const seen=new Set([recipe.title]);const alternatives=Object.entries(recipes).filter(([,r])=>r.kind===recipe.kind&&r.ingredients.length&&r.title!==recipe.title).filter(([,r])=>{if(seen.has(r.title))return false;seen.add(r.title);return true;}).slice(0,3);alternatives.forEach(([id,alternative])=>{const button=html('button','meal-suggestion');button.type='button';button.append(html('strong','',alternative.title),html('span','small','Usar este plato →'));button.onclick=()=>{saveMenuChoice(day,index,{...getChoice(day,index),recipe:id,kcal:''});renderMenus();$('menuStatus').textContent='Plan actualizado. La compra también ha cambiado; los registros de comidas se conservan.';};suggestions.append(button);});editor.prepend(suggestions);
+ }));};renderMenus();
+const rowsBeforeRecipeGuide=renderFoodRows;
+renderFoodRows=()=>{rowsBeforeRecipeGuide();$('foodPreparation')?.remove();if(!foodDraft.length)return;const recipe=Object.values(recipes).find(recipe=>recipe.title===$('foodLabel').value);if(!recipe||!recipe.ingredients.length)return;const detail=html('details','note');detail.id='foodPreparation';detail.append(html('summary','','Cómo preparar este plato'),guideBlock(recipe));$('foodRows').after(detail);};renderFoodRows();

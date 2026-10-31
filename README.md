@@ -42,3 +42,18 @@ La integración directa de Strava usa OAuth y necesita una solución que proteja
 - Las sesiones con al menos un ejercicio terminado se pueden guardar como parciales y cuentan como una visita. Sin ejercicios terminados se guarda un borrador, que no suma visitas. El borrador más reciente tiene prioridad al continuar, sin borrar el registro anterior hasta guardar una nueva sesión.
 - Cada variante de máquina lleva identificador propio dentro del ejercicio. Cambiar de variante borra solo la carga/repeticiones de ese ejercicio del borrador, previa confirmación. Las gráficas comparan únicamente registros de la misma variante y ejercicios marcados como terminados.
 - Referencias de interacción consultadas: diario por momentos de MyFitnessPal (https://support.myfitnesspal.com/hc/en-us/articles/360032274592-How-to-log-food-to-your-diary) e histórico/rutinas de Hevy (https://help.hevyapp.com/hc/en-us/articles/35361530647959-How-to-Log-a-Workout-in-the-Hevy-App-Step-by-Step-Guide). No se han usado sus recursos gráficos ni sus servicios.
+
+## Simplificación y otros deportes (31/10/2026)
+
+- Sin botón Atrás dentro de OwnPace y sin barra inferior. El logo vuelve a Hoy y el menú cambia de sección; el historial del navegador conserva ruta, semana, día y posición incluso al recargar.
+- Menú diario más compacto. «He comido esto» registra expresamente la ración del plan una sola vez; «Deshacer registro» elimina únicamente esa entrada. «He comido otra cosa» abre el diario. Nada se registra automáticamente por navegar.
+- `activities.js`/`activities.css`: registro local de deportes con fecha, tipo y minutos, edición, eliminación, resumen y copia de seguridad. Pádel no suma al objetivo de fuerza. Las visitas de fuerza son fechas únicas, evitando duplicarlas si se anotan tanto actividad de gimnasio como detalle de máquinas.
+- Se conservan los paseos y bicis de la versión anterior, identificados como registros sin duración.
+- Salud/Fitness/Apple Watch no están conectados. No hay acceso activo a HealthKit ni a Strava, ni importador de XML/ZIP implementado en esta versión. Una importación no debe presentarse como sincronización automática. No se han creado cuentas, servidores externos ni servicios de pago.
+## Elegir otra comida de la dieta
+
+«He comido otra cosa» abre un selector con los platos ya guardados y un buscador. Prioriza desayunos, platos o tentempiés según el momento elegido. La selección abre sus ingredientes para revisar cantidades antes de guardar; no sustituye el plan de la semana. También se puede introducir una comida que no figure en la dieta.
+
+## Recetas y sugerencias
+
+Los platos de base tienen instrucciones locales breves y tiempos orientativos, usando los ingredientes de la planificación. «Cambiar plato» muestra alternativas de la propia dieta y conserva el selector completo. Sustituir un plato modifica el menú y su compra, pero no el diario consumido. Las alternativas no se presentan como equivalencias nutricionales.
