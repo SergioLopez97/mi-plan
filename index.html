@@ -285,8 +285,8 @@ body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI
 .menu-intro{margin:16px 0 12px}.menu-guidance{margin:12px 0;font-size:12px}.menu-guidance summary{cursor:pointer}.menu-toolbar{border:1px solid var(--border);background:#fff;border-radius:14px;margin:0 0 12px}.menu-toolbar>summary{padding:13px 15px;display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:13px;font-weight:600;cursor:pointer;list-style:none}.menu-toolbar>summary::-webkit-details-marker{display:none}.menu-toolbar[open]>summary{border-bottom:1px solid var(--border)}.menu-toolbar[open]>summary>span{transform:rotate(45deg)}.breakfast-tools-body{padding:16px}.repeat-days{border:0;padding:0;margin:16px 0}.repeat-days legend{font-size:12px;color:var(--muted);margin-bottom:10px}.repeat-day-options{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;max-width:400px}.repeat-day-options label{position:relative;cursor:pointer;min-width:0}.repeat-day-options input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}.repeat-day-options span{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid var(--border);border-radius:10px;background:var(--card2);font-size:13px}.repeat-day-options input:checked+span{background:#294f3d;color:white;border-color:#294f3d}.repeat-day-options input:focus-visible+span{outline:3px solid var(--accent);outline-offset:2px}.menu-reset{margin:16px 0;padding:12px 0;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}.menu-reset summary{cursor:pointer}#menuStatus:empty{display:none}#menuStatus:not(:empty){margin:8px 0 14px}
 
 </style>
-<link rel="stylesheet" href="enhancements.css?v=20261030">
-<link rel="stylesheet" href="usability.css?v=20261031b">
+<link rel="stylesheet" href="enhancements.css?v=20261031cal">
+<link rel="stylesheet" href="usability.css?v=20261031buttons">
 <link rel="stylesheet" href="activities.css?v=20261031">
 </head>
 <body>
@@ -356,8 +356,54 @@ body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI
 
 const $ = id => document.getElementById(id);
 const STORAGE = 'miRitmoV1';
-function readStore(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
-function safeSave(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { $('storageWarning').hidden = false; } }
+function readStore(key, fallback) {
+ let raw;
+ try {raw=localStorage.getItem(key);return JSON.parse(raw)??fallback;}
+ catch(error) {
+  if(raw!==undefined&&raw!==null){localStorage.setItem('ownpaceUnreadable-'+Date.now(),raw);const warning=$('storageWarning');warning.hidden=false;warning.textContent='No se ha podido leer un archivo local. Se ha conservado el original para recuperarlo.';}
+  return fallback;
+ }
+}
+let storageRevision;try{storageRevision=localStorage.getItem('miRitmoV1');}catch{storageRevision=null;}
+function storageProblem(message) { const node=$('storageWarning');node.hidden=false;node.textContent=message; }
+function safeSave(key, value) {
+ try {
+  const text=JSON.stringify(value);
+  if(key==='miRitmoV1') {
+   const previous=localStorage.getItem(key);
+   if(previous!==storageRevision)throw new Error('conflict');
+   if(previous!==null && previous!==text)localStorage.setItem('ownpacePreviousState',previous);
+   localStorage.setItem(key,text);
+   if(localStorage.getItem(key)!==text)throw new Error('verification');
+   storageRevision=text;
+  } else localStorage.setItem(key,text);
+  return true;
+ } catch(error) {
+  storageProblem(error.message==='conflict'?'Hay cambios en otra pestaña. Esta pestaña no ha guardado los últimos cambios. Recarga antes de continuar.':'No se han podido guardar los últimos cambios. Conserva esta pestaña abierta y exporta una copia de tus datos.');
+  throw error;
+ }
+}
+function preserveBeforeRepair(value) {
+ const key='ownpaceRecovery-'+Date.now()+'-'+Math.random().toString(36).slice(2,7);
+ safeSave(key,value);
+ storageProblem('Se ha detectado un registro con errores. Los datos válidos se conservan y se ha guardado una copia de recuperación en este navegador.');
+}
+function repairFields(value, fields, validator, empty) {
+ const repaired={...value};let changed=false;
+ for(const field of fields) {
+  if(value[field]===undefined)continue;
+  const test=part=>validator({...empty,[field]:part});
+  if(test(value[field]))continue;
+  changed=true;
+  if(Array.isArray(value[field])) {repaired[field]=value[field].filter(item=>test([item])).slice(0,field==='customFoods'?500:100);continue;}
+  if(field==='customFoods'){repaired[field]=[];continue;}
+  repaired[field]={};
+  if(value[field]&&typeof value[field]==='object')for(const [key,item] of Object.entries(value[field]))if(test({[key]:item}))repaired[field][key]=item;
+ }
+ if(changed)preserveBeforeRepair(value);
+ return repaired;
+}
+window.addEventListener('storage',event=>{if(event.key==='miRitmoV1')storageProblem('Se han guardado cambios en otra pestaña. Recarga esta pestaña antes de seguir registrando.');});
 function localDate(d = new Date()) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 const today = localDate();
 const exercises = [
@@ -399,7 +445,9 @@ function validState(v) {
   }
   return true;
 }
-if (!validState(state)) state = { sessions:{}, drafts:{}, activities:{} };
+if(!state||typeof state!=='object'||Array.isArray(state)){preserveBeforeRepair(state);state={};}
+state.sessions??={};state.drafts??={};state.activities??={};
+state=repairFields(state,['sessions','drafts','activities','steps','weights','menu'],validState,{sessions:{},drafts:{},activities:{}});
 if (!state.steps || typeof state.steps !== 'object' || Array.isArray(state.steps)) state.steps = {};
 if (!state.weights || typeof state.weights !== 'object' || Array.isArray(state.weights)) state.weights = {};
 state.menu??={};
@@ -570,8 +618,8 @@ renderMenus();renderShopping();
 </script>
 
 <script src="foods.js?v=20261030"></script>
-<script src="enhancements.js?v=20261030c"></script>
-<script src="usability.js?v=20261031b"></script>
-<script src="activities.js?v=20261031"></script>
+<script src="enhancements.js?v=20261101storage"></script>
+<script src="usability.js?v=20261031buttons"></script>
+<script src="activities.js?v=20261101storage"></script>
 </body>
 </html>

@@ -57,3 +57,30 @@ La integración directa de Strava usa OAuth y necesita una solución que proteja
 ## Recetas y sugerencias
 
 Los platos de base tienen instrucciones locales breves y tiempos orientativos, usando los ingredientes de la planificación. «Cambiar plato» muestra alternativas de la propia dieta y conserva el selector completo. Sustituir un plato modifica el menú y su compra, pero no el diario consumido. Las alternativas no se presentan como equivalencias nutricionales.
+
+## Calorías por cantidad
+
+El campo `kcal` de cada alimento se conserva normalizado **por 100 g/ml**, nunca como total de una ración. El total siempre se calcula como `cantidad consumida × kcal por 100 / 100`. Las referencias de etiqueta por otras cantidades se normalizan antes de guardarse; sus datos originales se conservan opcionalmente como `referenceGrams` y `referenceEnergy`.
+
+La edición muestra el resultado de cada ingrediente y su fórmula al escribir, separado de los datos de etiqueta. El total de comida y diario se redondea a la unidad de kcal, no a decenas. Los valores genéricos siguen siendo orientativos y no son datos de una marca ni un objetivo clínico. Se conservan los valores de referencia junto con cada comida para que editar un producto no cambie registros anteriores.
+
+## Vista del diario de comidas
+
+El diario muestra tarjetas por momento del día. Registrar o editar abre una ventana con alimento, cantidad y energía de esa ración. Los datos de etiqueta, nombre y momento se mantienen plegados como opciones secundarias. Añadir un ingrediente abre un buscador en lugar de insertar colines por defecto.
+
+Cerrar la ventana conserva el borrador en la memoria de la pestaña y no lo cuenta como consumido. Solo Guardar crea o actualiza el registro; recargar o cerrar el navegador no equivale a guardar un borrador de comida. Los registros guardados siguen usando el mismo almacenamiento local y formato de copia.
+
+
+### Guardado local (noviembre 2026)
+
+Se mantiene la clave existente `miRitmoV1`: no es necesario migrar los registros.
+La validación conserva los registros válidos y archiva el original si detecta errores.
+Los archivos originales se pueden descargar desde «Descargar datos de recuperación»;
+son archivos de diagnóstico, no copias que se restauren directamente.
+Cada escritura verifica el resultado y conserva el estado anterior. Si otra pestaña ha
+modificado el historial, se bloquea la escritura antigua y se solicita recargar.
+Un error de almacenamiento interrumpe el guardado y muestra un aviso.
+Las semanas nuevas no heredan automáticamente los cambios de la anterior.
+El almacenamiento está separado por origen y navegador: los puertos locales y GitHub
+Pages no comparten datos. Borrar los datos del sitio puede eliminar el historial y sus
+copias locales; exportar una copia sigue siendo necesario para conservarlo fuera del dispositivo.
